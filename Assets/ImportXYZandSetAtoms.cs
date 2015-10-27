@@ -15,7 +15,7 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Debug.Log("Started!");
+        Debug.Log("Start: ImportXYZandSetAtoms !");
         //guitxt = System.IO.Directory.GetCurrentDirectory();   // カレントディレクトリを調べる
         //Debug.Log(guitxt);
 
@@ -36,7 +36,7 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
             guitxt = "Files not exist...";
             OnGUI();
         }
-        Debug.Log("End!");
+        Debug.Log("End: ImportXYZandSetAtoms !");
     }
 
     void OnGUI()

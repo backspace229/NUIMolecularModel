@@ -1,11 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.IO;    //System.IO.FileInfo
+using System;
 
 public class ExportXYZfromAtoms : MonoBehaviour {
 
-	// Update is called once per frame
-	void Update () {
-        Debug.Log("test");
+    // Use this for initialization
+	void Start () {
+        Debug.Log("Start: ExportXYZformAtoms");
+
+        // 現在時刻を取得
+        DateTime now = DateTime.Now;
+        string nowtime = now.ToString("yyyyMMddHHmmss");
+        // (Export + 現在時刻)の.xyz ファイルを作成
+        FileStream stream = File.Create(@".\Assets\Export_" + nowtime + ".xyz");
+        // ファイルを閉じる
+        stream.Close();
+
+        Debug.Log("End: ExportXYZformAtoms");
 	}
 }
 
