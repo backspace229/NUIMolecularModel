@@ -139,7 +139,7 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
                     ChemicalBond.name = "ChemicalBond"; //オブジェクト名変更
 
                     //長さなどの変更
-                    Debug.Log(ChemicalBond.transform.localScale);
+                    //Debug.Log(ChemicalBond.transform.localScale);
                     ChemicalBond.transform.localScale = new Vector3(ChemicalBond.transform.localScale.x, distance / 2, ChemicalBond.transform.localScale.z);
                 }
             }
