@@ -16,6 +16,7 @@ public class ExportXYZfromAtoms : MonoBehaviour {
         FileStream stream = File.Create(@".\Assets\Export_" + nowtime + ".xyz");
         // ファイルを閉じる
         stream.Close();
+        Debug.Log("作成完了");
 
         Debug.Log("End: ExportXYZformAtoms");
 	}
