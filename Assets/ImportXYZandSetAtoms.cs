@@ -6,6 +6,7 @@ using System.Text;  //Encoding
 
 public class ImportXYZandSetAtoms : MonoBehaviour {
 
+    public static readonly string IMPORT_FILE = "ExampleWater.xyz";
     int atomsNum = 0, tmpCount = 0;
     private string guitxt = "";
     private string[] line;
@@ -20,12 +21,13 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
         //Debug.Log(guitxt);
 
         // ファイルが存在するか調べる //そのうちディレクトリを選べるように(?)
-        string fileName = @".\Assets\exampleChemical.xyz";
+        string fileName = @".\Assets\" + IMPORT_FILE;
         // ファイルがある
         if (System.IO.File.Exists(fileName))
         {
             guitxt = "Files exist!";
             OnGUI();
+            Debug.Log("import_" + IMPORT_FILE);
             // ファイル読み込み()
             ReadFile();
         }
@@ -47,7 +49,7 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
     //ファイル読み込み
     void ReadFile()
     {
-        FileInfo fi = new FileInfo(Application.dataPath + "/" + "exampleChemical.xyz");
+        FileInfo fi = new FileInfo(Application.dataPath + "/" + IMPORT_FILE);
         try
         {
             // 一行目読み込み
