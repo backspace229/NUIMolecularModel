@@ -6,7 +6,9 @@ using System.Text;  //Encoding
 
 public class ImportXYZandSetAtoms : MonoBehaviour {
 
-    public static readonly string IMPORT_FILE = "ExampleWater.xyz";
+    public static readonly string IMPORT_FILE = "exampleChemical";
+    public const double BOND_JUDGMENT = 1.1;
+
     int atomsNum = 0, tmpCount = 0;
     private string guitxt = "";
     private string[] line;
@@ -21,7 +23,7 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
         //Debug.Log(guitxt);
 
         // ファイルが存在するか調べる //そのうちディレクトリを選べるように(?)
-        string fileName = @".\Assets\" + IMPORT_FILE;
+        string fileName = @".\Assets\" + IMPORT_FILE + ".xyz";
         // ファイルがある
         if (System.IO.File.Exists(fileName))
         {
@@ -49,7 +51,7 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
     //ファイル読み込み
     void ReadFile()
     {
-        FileInfo fi = new FileInfo(Application.dataPath + "/" + IMPORT_FILE);
+        FileInfo fi = new FileInfo(Application.dataPath + "/" + IMPORT_FILE + ".xyz");
         try
         {
             // 一行目読み込み
@@ -113,7 +115,7 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
                 //Debug.Log(distance);    // 数値確認用
 
                 // if 距離が定数値を下回っていればその長さの棒モデルを描画
-                if (1.1 > distance)
+                if (BOND_JUDGMENT > distance)
                 {
                     //まず向きを決めてから座標の位置を2座標の中心に変更する
                     //http://qiita.com/2dgames_jp/items/60274efb7b90fa6f986a
