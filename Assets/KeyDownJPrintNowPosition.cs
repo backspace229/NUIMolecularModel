@@ -7,11 +7,6 @@ using System.Collections;
  * これを現在の原子を保存するプログラムに書き換える
  */
 public class KeyDownJPrintNowPosition : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -32,9 +27,16 @@ public class KeyDownJPrintNowPosition : MonoBehaviour {
             // シーン上に存在するオブジェクトならば処理
             if (obj.activeInHierarchy)
             {
-                // GameObjectの名前を表示
-                Debug.Log(obj.name);
+                ExportPosition(obj);
             }
         }
+    }
+    void ExportPosition(GameObject obj)
+    {
+        // GameObjectの名前を表示
+        Debug.Log(obj.name);
+        Debug.Log(obj.transform.position);
+        //ファイルが空ならそのまま座標を出力
+        //それ以外では改行してから出力
     }
 }

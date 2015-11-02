@@ -101,8 +101,8 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
         // 座標を抜き取って球モデルを配置
         locations[tmpCount] = new Vector3(location[1], location[2], location[3]);
         GameObject Atom = Instantiate(AtomsPrefab, locations[tmpCount], Quaternion.identity) as GameObject;
-        Atom.name = name[0];    //読み込んだファイルの原子名
-        DontDestroyOnLoad(Atom);
+        Atom.name = name[0];    // 読み込んだファイルの原子名
+        DontDestroyOnLoad(Atom);// Sceneを切り替えてもObjectを保持
 
         //各座標を比較して距離を求める
         if (0 < tmpCount)   // tmpCountが0以上のとき

@@ -17,7 +17,7 @@ using System.Collections;
 public class KeyDownSetFunctionalGroup : MonoBehaviour
 {
     public GameObject OxygenPrefab, HydrogenPrefab;
-    int n = 0;
+    int n = 0;  // OxygenObjectが呼び出されるとインクリメントする
 
 	// Use this for initialization
 	void Start () {
@@ -36,11 +36,11 @@ public class KeyDownSetFunctionalGroup : MonoBehaviour
             Debug.Log("push SpaceKey");
             GameObject Oxygen = Instantiate(OxygenPrefab, new Vector3(random_X, random_Y, random_Z), Quaternion.identity) as GameObject;
             Oxygen.name = "O";
-            DontDestroyOnLoad(Oxygen);
+            DontDestroyOnLoad(Oxygen);  // Sceneを切り替えてもObjectを保持
             n++;
         }
         if (n > 30) {
-            Application.LoadLevel("export");
+            Application.LoadLevel("export");    // Scene切り替え
         }
 	}
 }
