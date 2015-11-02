@@ -96,6 +96,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 622730041}
   - 114: {fileID: 622730040}
+  - 114: {fileID: 622730042}
+  - 114: {fileID: 622730043}
   m_Layer: 0
   m_Name: Atoms
   m_TagString: Untagged
@@ -128,6 +130,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &622730042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 622730039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041d7c06f241a354bad7def56982efe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Prefab: {fileID: 140888, guid: 03c0294532a2f184f8329d6ec6877250, type: 2}
+--- !u!114 &622730043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 622730039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fd0140f838b4c4bb746b62ce78485c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OxygenPrefab: {fileID: 159684, guid: c351175bba856854faf2b41e2c5a2736, type: 2}
+  HydrogenPrefab: {fileID: 137772, guid: 272ebd66b0a2fd546aa374fd53029ecc, type: 2}
 --- !u!1001 &1590797776
 Prefab:
   m_ObjectHideFlags: 0

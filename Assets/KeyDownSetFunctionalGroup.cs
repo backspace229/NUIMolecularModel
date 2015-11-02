@@ -17,6 +17,7 @@ using System.Collections;
 public class KeyDownSetFunctionalGroup : MonoBehaviour
 {
     public GameObject OxygenPrefab, HydrogenPrefab;
+    int n = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -33,7 +34,13 @@ public class KeyDownSetFunctionalGroup : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             Debug.Log("push SpaceKey");
-            Instantiate(OxygenPrefab, new Vector3(random_X, random_Y, random_Z), Quaternion.identity);
+            GameObject Oxygen = Instantiate(OxygenPrefab, new Vector3(random_X, random_Y, random_Z), Quaternion.identity) as GameObject;
+            Oxygen.name = "O";
+            DontDestroyOnLoad(Oxygen);
+            n++;
+        }
+        if (n > 30) {
+            Application.LoadLevel("export");
         }
 	}
 }
