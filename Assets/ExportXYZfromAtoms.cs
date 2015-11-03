@@ -5,13 +5,15 @@ using System;
 
 public class ExportXYZfromAtoms : MonoBehaviour {
 
+    public string nowtime;
+
     // Use this for initialization
 	void Start () {
         Debug.Log("Start: ExportXYZformAtoms");
 
         // 現在時刻を取得
         DateTime now = DateTime.Now;
-        string nowtime = now.ToString("yyyyMMddHHmmss");
+        nowtime = now.ToString("yyyyMMddHHmmss");
         // (Export + 現在時刻)の.xyz ファイルを作成
         FileStream stream = File.Create(@".\Assets\Export_" + nowtime + ".xyz");
         // ファイルを閉じる

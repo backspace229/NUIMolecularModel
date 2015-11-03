@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.IO;    //System.IO.FileInfo, System.IO.StreamReader, System.IO.StreamWriter
+using System.IO;    //System.IO.FileInfo, System.IO.StreamReader
 using System;   //Exception, System.Split
 using System.Text;  //Encoding
 
