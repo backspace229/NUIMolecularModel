@@ -31,7 +31,7 @@ public class KeyDownSetFunctionalGroup : MonoBehaviour
         random_Y = Random.Range(-1.0f, 1.0f);
         random_Z = Random.Range(-1.0f, 1.0f);
         // スペースキー押す
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("push SpaceKey");
             GameObject Oxygen = Instantiate(OxygenPrefab, new Vector3(random_X, random_Y, random_Z), Quaternion.identity) as GameObject;
@@ -39,7 +39,7 @@ public class KeyDownSetFunctionalGroup : MonoBehaviour
             DontDestroyOnLoad(Oxygen);  // Sceneを切り替えてもObjectを保持
             n++;
         }
-        if (n > 30) {
+        if (n > 10) {
             Application.LoadLevel("export");    // Scene切り替え
         }
 	}

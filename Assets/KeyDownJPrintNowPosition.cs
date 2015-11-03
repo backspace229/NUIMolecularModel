@@ -13,11 +13,13 @@ public class KeyDownJPrintNowPosition : MonoBehaviour
 {
     // 別ファイルの変数を使用
     ExportXYZfromAtoms exportXYZ;
+    string PATH;
 
     // Use this for initialization
     void Start()
     {
         exportXYZ = GetComponent<ExportXYZfromAtoms>();
+        PATH = @".\Assets\Export_" + exportXYZ.nowtime + ".xyz";
     }
 
     // Update is called once per frame
@@ -34,72 +36,70 @@ public class KeyDownJPrintNowPosition : MonoBehaviour
 
     void GetFindObjectsOfType()
     {
+        int n = 0;
         // typeで指定した型のすべてのオブジェクトを配列で取得し、その要素数分繰り返す
         foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
         {
             // シーン上に存在するオブジェクトならば処理
             if (obj.activeInHierarchy)
             {
-                ReadFile(obj);
+                n++;
                 ExportPosition(obj);
             }
         }
-    }
-
-    void ReadFile(GameObject obj)
-    {
-        FileInfo fi = new FileInfo(@".\Assets\Export_" + exportXYZ.nowtime + ".xyz");
-        try
-        {
-            // 一行目読み込み
-            using (StreamReader sr = new StreamReader(fi.OpenRead(), Encoding.UTF8))
-            {
-                if (null == sr.ReadLine())
-                {
-                    ExportPosition(obj);
-                }
-                else
-                {
-                    ExportPosition(obj);
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            //guitxt += SetDefaultText();
-            Debug.Log(e);
-        }
-    }
-    // 改行処理?
-    string SetDefaultText()
-    {
-        return "C#あ\n";
+        ControlFile(n);
     }
 
     void ExportPosition(GameObject obj)
     {
-        // GameObjectの名前を表示
-        //Debug.Log(obj.name);
-        //Debug.Log(obj.transform.position.x);
-
         // メモリストリーム作成
-        FileInfo fi = new FileInfo(@".\Assets\Export_" + exportXYZ.nowtime + ".xyz");
-        //StreamWriter sw = new StreamWriter(fi.OpenWrite());
+        FileInfo fi = new FileInfo(PATH);
         using (StreamWriter sw = fi.AppendText())
         {
             //if 入れる
-            sw.WriteLine(obj.name + "\t"
-                + obj.transform.position.x.ToString() + "\t"
-                + obj.transform.position.y.ToString() + "\t"
+            sw.WriteLine(obj.name + " "
+                + obj.transform.position.x.ToString() + " "
+                + obj.transform.position.y.ToString() + " "
                 + obj.transform.position.z.ToString()
             );
             sw.Close();
         }
-        //sw.WriteLine();
-        //sw.WriteLine(obj.name + "\t"
-        //    + obj.transform.position.x.ToString() + "\t"
-        //    + obj.transform.position.y.ToString() + "\t"
-        //    + obj.transform.position.z.ToString()
-        //);
+    }
+
+    void ControlFile(int n)
+    {
+        string tmpFile = Path.GetTempFileName();
+        using (StreamReader sr = new StreamReader(PATH))
+        using (StreamWriter sw = new StreamWriter(tmpFile))
+        {
+            int i = 1;
+            while (sr.Peek() > -1)
+            {
+                string line = sr.ReadLine();
+                if (1 == i)
+                {
+                    sw.WriteLine(n - 3);
+                }
+                else if (2 == i)
+                {
+                    sw.WriteLine("Export_" + exportXYZ.nowtime + ".xyz");
+                }
+                else if (n == i)
+                {
+                    sw.Dispose();
+                }
+                else
+                {
+                    sw.WriteLine(line);
+                }
+                i++;
+            }
+            //閉じる
+            sr.Close();
+            sw.Close();
+        }
+        //入れ替え
+        File.Copy(tmpFile, PATH, true);
+        File.Delete(tmpFile);
     }
 }
