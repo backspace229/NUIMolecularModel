@@ -40,12 +40,21 @@ public class KeyDownJPrintNowPosition : MonoBehaviour
         // typeで指定した型のすべてのオブジェクトを配列で取得し、その要素数分繰り返す
         foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
         {
-            // シーン上に存在するオブジェクトならば処理
-            if (obj.activeInHierarchy)
+            // 化学結合を破壊
+            if (obj.name == "ChemicalBond")
             {
-                n++;
-                ExportPosition(obj);
+                Destroy(this);
             }
+            else
+            {
+                // シーン上に存在するオブジェクトならば処理
+                if (obj.activeInHierarchy)
+                {
+                    n++;
+                    ExportPosition(obj);
+                }
+            }
+
         }
         ControlFile(n);
     }

@@ -41,6 +41,7 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
             OnGUI();
         }
         Debug.Log("End: ImportXYZandSetAtoms !");
+        Application.LoadLevel("Edit");
     }
 
     void OnGUI()
@@ -142,6 +143,7 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
                     //表示
                     GameObject ChemicalBond = Instantiate(ChemicalBondsPrefab, position, rotation) as GameObject;
                     ChemicalBond.name = "ChemicalBond"; //オブジェクト名変更
+                    DontDestroyOnLoad(ChemicalBond);
 
                     //長さなどの変更
                     //Debug.Log(ChemicalBond.transform.localScale);

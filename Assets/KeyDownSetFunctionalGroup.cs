@@ -33,14 +33,22 @@ public class KeyDownSetFunctionalGroup : MonoBehaviour
         // スペースキー押す
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("push SpaceKey");
+            Debug.Log("push Space");
             GameObject Oxygen = Instantiate(OxygenPrefab, new Vector3(random_X, random_Y, random_Z), Quaternion.identity) as GameObject;
             Oxygen.name = "O";
             DontDestroyOnLoad(Oxygen);  // Sceneを切り替えてもObjectを保持
             n++;
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.Log("push F");
+            GameObject Hydrogen = Instantiate(HydrogenPrefab, new Vector3(random_X, random_Y, random_Z), Quaternion.identity) as GameObject;
+            Hydrogen.name = "H";
+            DontDestroyOnLoad(Hydrogen);  // Sceneを切り替えてもObjectを保持
+            n++;
+        }
         if (n > 10) {
-            Application.LoadLevel("export");    // Scene切り替え
+            Application.LoadLevel("Export");    // Scene切り替え
         }
 	}
 }
