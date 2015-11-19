@@ -80,7 +80,7 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
             if (line != null && i > 1 && i < (2 + atomsNum))
             {
                 //Debug.Log(line[i]);
-                // このへんでsetAtomModel呼び出し  
+                // このへんでsetAtomModel呼び出し
                 setAtomModel(line[i], locations);
             }
         }
