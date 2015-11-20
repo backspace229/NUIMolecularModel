@@ -138,7 +138,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1662053727}
   - 114: {fileID: 1662053726}
-  - 114: {fileID: 1662053728}
   m_Layer: 0
   m_Name: FunctionalGroup
   m_TagString: Untagged
@@ -171,15 +170,3 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
---- !u!114 &1662053728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1662053725}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 041d7c06f241a354bad7def56982efe1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Prefab: {fileID: 0}

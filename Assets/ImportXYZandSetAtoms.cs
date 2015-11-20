@@ -4,6 +4,16 @@ using System.IO;    //System.IO.FileInfo, System.IO.StreamReader
 using System;   //Exception, System.Split
 using System.Text;  //Encoding
 
+/*************************************
+ * 現在は一行読み込んで描画を繰り返している
+ * 
+ * 一行づつ読み込み、座標などの数値を配列？コレクション？リスト？
+ * ・・・とにかくデータのまとまりにする
+ * 
+ * 化学結合の描画を別のメソッドに分離
+ * 
+ ************************************/
+
 public class ImportXYZandSetAtoms : MonoBehaviour {
 
     public static readonly string IMPORT_FILE = "exampleChemical";
