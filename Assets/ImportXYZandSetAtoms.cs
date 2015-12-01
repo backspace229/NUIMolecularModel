@@ -24,6 +24,7 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
     private string[] line;
     public GameObject AtomsPrefab;
     public GameObject ChemicalBondsPrefab;
+    Rigidbody AtomRigid, BondRigid;
     Vector3[] locations;
 
 	// Use this for initialization
@@ -113,10 +114,10 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
         locations[tmpCount] = new Vector3(location[1], location[2], location[3]);
         GameObject Atom = Instantiate(AtomsPrefab, locations[tmpCount], Quaternion.identity) as GameObject;
         Atom.name = name[0];    // 読み込んだファイルの原子名
-        Rigidbody cmpRigid = Atom.AddComponent<Rigidbody>();
-        cmpRigid.isKinematic = false;
-        cmpRigid.useGravity = false;
-        cmpRigid.drag = 100f;
+        AtomRigid = Atom.AddComponent<Rigidbody>();
+        AtomRigid.isKinematic = false;
+        AtomRigid.useGravity = false;
+        AtomRigid.drag = 10f;
         DontDestroyOnLoad(Atom);// Sceneを切り替えてもObjectを保持
 
         //各座標を比較して距離を求める
@@ -157,6 +158,9 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
                     //表示
                     GameObject ChemicalBond = Instantiate(ChemicalBondsPrefab, position, rotation) as GameObject;
                     ChemicalBond.name = "ChemicalBond"; //オブジェクト名変更
+                    BondRigid = ChemicalBond.AddComponent<Rigidbody>();
+                    BondRigid.isKinematic = true;
+                    BondRigid.useGravity = false;
                     DontDestroyOnLoad(ChemicalBond);
 
                     //長さなどの変更
