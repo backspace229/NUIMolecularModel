@@ -18,6 +18,7 @@ public class KeyDownSetFunctionalGroup : MonoBehaviour
 {
     public GameObject OxygenPrefab, HydrogenPrefab;
     int n = 0;  // OxygenObjectが呼び出されるとインクリメントする
+    Rigidbody cmpRigid_O, cmpRigid_H;
 
 	// Use this for initialization
 	void Start () {
@@ -30,20 +31,26 @@ public class KeyDownSetFunctionalGroup : MonoBehaviour
         random_X = Random.Range(-1.0f, 1.0f);
         random_Y = Random.Range(-1.0f, 1.0f);
         random_Z = Random.Range(-1.0f, 1.0f);
-        // スペースキー押す
-        if (Input.GetKeyDown(KeyCode.Space))
+        // Oキー押す
+        if (Input.GetKeyDown(KeyCode.O))
         {
-            Debug.Log("push Space");
+            Debug.Log("push O-key");
             GameObject Oxygen = Instantiate(OxygenPrefab, new Vector3(random_X, random_Y, random_Z), Quaternion.identity) as GameObject;
             Oxygen.name = "O";
+            cmpRigid_O = Oxygen.AddComponent<Rigidbody>();
+            cmpRigid_O.isKinematic = false;
+            cmpRigid_O.useGravity = false;
             DontDestroyOnLoad(Oxygen);  // Sceneを切り替えてもObjectを保持
             n++;
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.H))
         {
-            Debug.Log("push F");
+            Debug.Log("push H-key");
             GameObject Hydrogen = Instantiate(HydrogenPrefab, new Vector3(random_X, random_Y, random_Z), Quaternion.identity) as GameObject;
             Hydrogen.name = "H";
+            cmpRigid_H = Hydrogen.AddComponent<Rigidbody>();
+            cmpRigid_H.isKinematic = false;
+            cmpRigid_H.useGravity = false;
             DontDestroyOnLoad(Hydrogen);  // Sceneを切り替えてもObjectを保持
             n++;
         }

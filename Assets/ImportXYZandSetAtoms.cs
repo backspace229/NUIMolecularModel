@@ -113,6 +113,10 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
         locations[tmpCount] = new Vector3(location[1], location[2], location[3]);
         GameObject Atom = Instantiate(AtomsPrefab, locations[tmpCount], Quaternion.identity) as GameObject;
         Atom.name = name[0];    // 読み込んだファイルの原子名
+        Rigidbody cmpRigid = Atom.AddComponent<Rigidbody>();
+        cmpRigid.isKinematic = false;
+        cmpRigid.useGravity = false;
+        cmpRigid.drag = 100f;
         DontDestroyOnLoad(Atom);// Sceneを切り替えてもObjectを保持
 
         //各座標を比較して距離を求める
