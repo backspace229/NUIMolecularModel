@@ -52,7 +52,7 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
             OnGUI();
         }
         Debug.Log("End: ImportXYZandSetAtoms !");
-        Application.LoadLevel("Edit");
+        //Application.LoadLevel("Edit");
     }
 
     void OnGUI()

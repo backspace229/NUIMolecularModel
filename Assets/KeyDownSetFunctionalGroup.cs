@@ -19,12 +19,9 @@ public class KeyDownSetFunctionalGroup : MonoBehaviour
     public GameObject OxygenPrefab, HydrogenPrefab;
     int n = 0;  // OxygenObjectが呼び出されるとインクリメントする
     Rigidbody cmpRigid_O, cmpRigid_H;
-    // Stopwatchオブジェクト作成    // Unity の Debug と競合するから長くしてる
-    //System.Diagnostics.Stopwatch BondTimer = new System.Diagnostics.Stopwatch();
 
 	// Use this for initialization
 	void Start () {
-        //BondTimer.Start();  // 開始
 	}
 	
 	// Update is called once per frame
@@ -34,7 +31,6 @@ public class KeyDownSetFunctionalGroup : MonoBehaviour
         random_Y = Random.Range(-1.0f, 1.0f);
         random_Z = Random.Range(-1.0f, 1.0f);
 
-        //System.Threading.Thread.Sleep(1000);
 
 
         // Oキー押す
