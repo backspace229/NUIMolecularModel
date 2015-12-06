@@ -16,19 +16,17 @@ public class KeyDownJPrintNowPosition : MonoBehaviour
     string PATH;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         exportXYZ = GetComponent<ExportXYZfromAtoms>();
         PATH = @".\Assets\Export_" + exportXYZ.nowtime + ".xyz";
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         // J入力した瞬間
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            Debug.Log("push J_Key");
+            Debug.Log("push P_Key");
             GetFindObjectsOfType();
 
         }

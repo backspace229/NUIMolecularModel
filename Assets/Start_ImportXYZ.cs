@@ -4,25 +4,17 @@ using System.IO;    //System.IO.FileInfo, System.IO.StreamReader
 using System;   //Exception, System.Split
 using System.Text;  //Encoding
 
-/*************************************
- * 現在は一行読み込んで描画を繰り返している
- * 
- * 一行づつ読み込み、座標などの数値を配列？コレクション？リスト？
- * ・・・とにかくデータのまとまりにする
- * 
- * 化学結合の描画を別のメソッドに分離
- * 
- ************************************/
-
-public class ImportXYZandSetAtoms : MonoBehaviour {
+public class Start_ImportXYZ : MonoBehaviour {
 
     public static readonly string IMPORT_FILE = "exampleChemical";
     public const double BOND_JUDGMENT = 1.1;
 
-    int atomsNum = 0, tmpCount = 0;
+    // CreateAtoms のメソッドを使いたいが保留
+
+    int AtomsNum = 0, tmpCount = 0;
     private string guitxt = "";
     private string[] line;
-    public GameObject AtomsPrefab;
+    public GameObject OPrefab, HPrefab, CPrefab;
     public GameObject ChemicalBondsPrefab;
     Rigidbody AtomRigid, BondRigid;
     Vector3[] locations;
@@ -53,7 +45,7 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
         }
         Debug.Log("End: ImportXYZandSetAtoms !");
         Application.LoadLevel("Edit");
-    }
+	}
 
     void OnGUI()
     {
@@ -70,7 +62,7 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
             using (StreamReader sr = new StreamReader(fi.OpenRead(), Encoding.UTF8))
             {
                 // 連続したデータを扱うときに使えるかも
-                atomsNum = int.Parse(sr.ReadLine());
+                AtomsNum = int.Parse(sr.ReadLine());
                 //Debug.Log(atomsNum);
             }
         }
@@ -79,16 +71,16 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
             guitxt += SetDefaultText();
             Debug.Log(e);
         }
-        locations = new Vector3[atomsNum];
+        locations = new Vector3[AtomsNum];
         StreamReader sr_1 = new StreamReader(fi.OpenRead(), Encoding.UTF8);
         // 2行目は飛ばす
         // 3行目以降ループ
-        for (int i = 0; i < 2 + atomsNum; i++)
+        for (int i = 0; i < 2 + AtomsNum; i++)
         {
-            line = new string[2 + atomsNum];
+            line = new string[2 + AtomsNum];
             line[i] = sr_1.ReadLine() + "\r\n";
             // 球モデルをループでひとつづつ描画
-            if (line != null && i > 1 && i < (2 + atomsNum))
+            if (line != null && i > 1 && i < (2 + AtomsNum))
             {
                 //Debug.Log(line[i]);
                 // このへんでsetAtomModel呼び出し
@@ -105,6 +97,8 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
     // 球モデル配置
     void setAtomModel(string str, Vector3[] locations)
     {
+        Edit_SetAtoms SetAtoms;
+        SetAtoms = GetComponent<Edit_SetAtoms>();
 
         string[] name = new string[1];  // 原子名保持
         float[] location = new float[4];// 原子座標保保持
@@ -112,13 +106,14 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
         stringFromElements(str, name, location);
         // 座標を抜き取って球モデルを配置
         locations[tmpCount] = new Vector3(location[1], location[2], location[3]);
-        GameObject Atom = Instantiate(AtomsPrefab, locations[tmpCount], Quaternion.identity) as GameObject;
-        Atom.name = name[0];    // 読み込んだファイルの原子名
-        AtomRigid = Atom.AddComponent<Rigidbody>();
-        AtomRigid.isKinematic = false;
-        AtomRigid.useGravity = false;
-        AtomRigid.drag = 10f;
-        DontDestroyOnLoad(Atom);// Sceneを切り替えてもObjectを保持
+        SetAtoms.CreateAtoms(name[0], locations[tmpCount]);
+        //GameObject Atom = Instantiate(AtomsPrefab, locations[tmpCount], Quaternion.identity) as GameObject;
+        //Atom.name = name[0];    // 読み込んだファイルの原子名
+        //AtomRigid = Atom.AddComponent<Rigidbody>();
+        //AtomRigid.isKinematic = false;
+        //AtomRigid.useGravity = false;
+        //AtomRigid.drag = 10f;
+        //DontDestroyOnLoad(Atom);// Sceneを切り替えてもObjectを保持
 
         //各座標を比較して距離を求める
         if (0 < tmpCount)   // tmpCountが0以上のとき
@@ -191,4 +186,9 @@ public class ImportXYZandSetAtoms : MonoBehaviour {
             i++;
         }
     }
+	
+	// Update is called once per frame
+	void Update () {
+	
+	}
 }
