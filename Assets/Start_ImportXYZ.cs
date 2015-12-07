@@ -14,7 +14,7 @@ public class Start_ImportXYZ : MonoBehaviour {
     int AtomsNum = 0, tmpCount = 0;
     private string guitxt = "";
     private string[] line;
-    public GameObject OPrefab, HPrefab, CPrefab;
+    //public GameObject OPrefab, HPrefab, CPrefab;
     public GameObject ChemicalBondsPrefab;
     Rigidbody AtomRigid, BondRigid;
     Vector3[] locations;
@@ -22,6 +22,8 @@ public class Start_ImportXYZ : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         Debug.Log("Start: ImportXYZandSetAtoms !");
+        GameObject test = new GameObject("test");
+        DontDestroyOnLoad(test);
         //guitxt = System.IO.Directory.GetCurrentDirectory();   // カレントディレクトリを調べる
         //Debug.Log(guitxt);
 
@@ -97,8 +99,7 @@ public class Start_ImportXYZ : MonoBehaviour {
     // 球モデル配置
     void setAtomModel(string str, Vector3[] locations)
     {
-        Edit_SetAtoms SetAtoms;
-        SetAtoms = GetComponent<Edit_SetAtoms>();
+        Edit_SetAtoms SetAtoms = GetComponent<Edit_SetAtoms>();
 
         string[] name = new string[1];  // 原子名保持
         float[] location = new float[4];// 原子座標保保持

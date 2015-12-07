@@ -600,9 +600,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fd0140f838b4c4bb746b62ce78485c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OPrefab: {fileID: 0}
-  HPrefab: {fileID: 0}
-  CPrefab: {fileID: 0}
+  O: {fileID: 159684, guid: c351175bba856854faf2b41e2c5a2736, type: 2}
+  H: {fileID: 137772, guid: 272ebd66b0a2fd546aa374fd53029ecc, type: 2}
+  C: {fileID: 158634, guid: 6ebc9d9935e11ac4293ba7b12eb00b9b, type: 2}
 --- !u!4 &1662053727
 Transform:
   m_ObjectHideFlags: 0
