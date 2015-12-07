@@ -582,8 +582,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 1662053727}
   - 114: {fileID: 1662053726}
+  - 114: {fileID: 1662053728}
   m_Layer: 0
-  m_Name: FunctionalGroup
+  m_Name: Atoms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -615,6 +616,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!114 &1662053728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1662053725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 957bbba9ce8991c4388edf90ab8c7249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChemicalBondsPrefab: {fileID: 140888, guid: 03c0294532a2f184f8329d6ec6877250, type: 2}
 --- !u!1001 &1680942691
 Prefab:
   m_ObjectHideFlags: 0
@@ -624,15 +637,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400034, guid: d1ee2987e72174f659cdf5447ad5403c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -4.1190443
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: d1ee2987e72174f659cdf5447ad5403c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.93521142
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: d1ee2987e72174f659cdf5447ad5403c, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -6.83640623
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: d1ee2987e72174f659cdf5447ad5403c, type: 2}
       propertyPath: m_LocalRotation.x

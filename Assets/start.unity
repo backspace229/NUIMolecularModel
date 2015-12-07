@@ -98,6 +98,7 @@ GameObject:
   - 114: {fileID: 622730040}
   - 114: {fileID: 622730042}
   - 114: {fileID: 622730043}
+  - 114: {fileID: 622730044}
   m_Layer: 0
   m_Name: Atoms
   m_TagString: Untagged
@@ -141,7 +142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e17f25a7d4115428edd498784c5999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChemicalBondsPrefab: {fileID: 140888, guid: 03c0294532a2f184f8329d6ec6877250, type: 2}
 --- !u!114 &622730043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +156,18 @@ MonoBehaviour:
   O: {fileID: 159684, guid: c351175bba856854faf2b41e2c5a2736, type: 2}
   H: {fileID: 137772, guid: 272ebd66b0a2fd546aa374fd53029ecc, type: 2}
   C: {fileID: 158634, guid: 6ebc9d9935e11ac4293ba7b12eb00b9b, type: 2}
+--- !u!114 &622730044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 622730039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 957bbba9ce8991c4388edf90ab8c7249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChemicalBondsPrefab: {fileID: 140888, guid: 03c0294532a2f184f8329d6ec6877250, type: 2}
 --- !u!1001 &1590797776
 Prefab:
   m_ObjectHideFlags: 0

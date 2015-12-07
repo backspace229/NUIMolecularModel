@@ -9,7 +9,7 @@ using System;       //Exception
  * Jを押すとオブジェクト名表示
  * これを現在の原子を保存するプログラムに書き換える
  */
-public class KeyDownJPrintNowPosition : MonoBehaviour
+public class PrintPosition : MonoBehaviour
 {
     // 別ファイルの変数を使用
     ExportXYZfromAtoms exportXYZ;

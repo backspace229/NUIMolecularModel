@@ -17,8 +17,7 @@ using System.Collections;
  * 固定ジョイント
  * http://docs.unity3d.com/ja/current/Manual/class-FixedJoint.html
  */
-public class Edit_SetAtoms : MonoBehaviour
-{
+public class SetAtoms : MonoBehaviour {
     public GameObject O, H, C;
     GameObject obj;
     Rigidbody rigid;
@@ -31,10 +30,12 @@ public class Edit_SetAtoms : MonoBehaviour
 	void Update () {
 
         float random_X, random_Y, random_Z;
-        random_X = Random.Range(-10.0f, 10.0f);
-        random_Y = Random.Range(-10.0f, 10.0f);
-        random_Z = Random.Range(-10.0f, 10.0f);
+        random_X = Random.Range(-5.0f, 5.0f);
+        random_Y = Random.Range(-5.0f, 5.0f);
+        random_Z = Random.Range(-5.0f, 5.0f);
 
+
+        // 
         if (Input.GetKeyDown(KeyCode.O))
         {
             Debug.Log("push O-key");
@@ -77,12 +78,12 @@ public class Edit_SetAtoms : MonoBehaviour
         //}
 
         obj.name = AtomName;    // 名前を変更
-        obj.transform.parent = GameObject.Find("test").transform;
+        //obj.transform.parent = GameObject.Find("test").transform;
         rigid = obj.AddComponent<Rigidbody>();  // Rigidbodyコンポーネントを追加
         rigid.isKinematic = false;  // 物理計算しない
         rigid.useGravity = false;   // 重力使用しない
         rigid.drag = 10f;        // 空気抵抗の大きさ
-        rigid.angularDrag = 10f;
+        rigid.angularDrag = 10000f;
         DontDestroyOnLoad(obj); // Scene を切り替えても Object を保持
     }
 }
