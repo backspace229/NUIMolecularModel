@@ -3,7 +3,7 @@ using System.Collections;
 using System.IO;    //System.IO.FileInfo
 using System;
 
-public class ExportXYZfromAtoms : MonoBehaviour {
+public class ExportXYZ : MonoBehaviour {
 
     public string nowtime;
 

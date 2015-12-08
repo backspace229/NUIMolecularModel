@@ -76,12 +76,12 @@ public class SetAtoms : MonoBehaviour {
         //        break;
         //}
         obj.name = AtomName;    // 名前を変更
-        //obj.transform.parent = GameObject.Find("test").transform;
         rigid = obj.AddComponent<Rigidbody>();  // Rigidbodyコンポーネントを追加
-        rigid.isKinematic = false;  // 物理計算しない
+        rigid.isKinematic = true;   // 物理計算しない
         rigid.useGravity  = false;  // 重力使用しない
         rigid.drag        = 10f;    // 空気抵抗の大きさ
         rigid.angularDrag = 10000f; // 回転の空気抵抗
         DontDestroyOnLoad(obj);     // Scene を切り替えても Object を保持
+
     }
 }

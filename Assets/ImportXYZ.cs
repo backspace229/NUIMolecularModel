@@ -12,7 +12,7 @@ public class ImportXYZ : MonoBehaviour {
     int AtomsNum = 0, tmpCount = 0;
     private string guitxt = "";
     private string[] line;
-    public FixedJoint joint;
+    //public FixedJoint joint;
     Vector3[] locations;
     GameObject Parent;
 
@@ -48,8 +48,8 @@ public class ImportXYZ : MonoBehaviour {
         {
             if (obj.tag == "Atoms" || obj.tag == "ChemicalBond")
             {
-                //obj.transform.parent = Parent.transform;
-                joint = obj.AddComponent<FixedJoint>();
+                obj.transform.parent = Parent.transform;
+                //joint = obj.AddComponent<FixedJoint>();
             }
         }
 

@@ -12,12 +12,12 @@ using System;       //Exception
 public class PrintPosition : MonoBehaviour
 {
     // 別ファイルの変数を使用
-    ExportXYZfromAtoms exportXYZ;
+    ExportXYZ exportXYZ;
     string PATH;
 
     // Use this for initialization
     void Start() {
-        exportXYZ = GetComponent<ExportXYZfromAtoms>();
+        exportXYZ = GetComponent<ExportXYZ>();
         PATH = @".\Assets\Export_" + exportXYZ.nowtime + ".xyz";
     }
 
