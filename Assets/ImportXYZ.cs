@@ -12,18 +12,15 @@ public class ImportXYZ : MonoBehaviour {
     int AtomsNum = 0, tmpCount = 0;
     private string guitxt = "";
     private string[] line;
-    //public GameObject OPrefab, HPrefab, CPrefab;
-    //public GameObject ChemicalBondsPrefab;
-    //Rigidbody AtomRigid, BondRigid;
     public FixedJoint joint;
-    public HingeJoint hinge;
     Vector3[] locations;
+    GameObject Parent;
 
 	// Use this for initialization
 	void Start () {
         Debug.Log("Start: ImportXYZandSetAtoms !");
-        //guitxt = System.IO.Directory.GetCurrentDirectory();   // カレントディレクトリを調べる
-        //Debug.Log(guitxt);
+        Parent = new GameObject("Parent");
+        //Debug.Log(System.IO.Directory.GetCurrentDirectory());   // カレントディレクトリを調べる
 
         // ファイルが存在するか調べる //そのうちディレクトリを選べるように(?)
         string fileName = @".\Assets\" + IMPORT_FILE + ".xyz";
@@ -47,18 +44,17 @@ public class ImportXYZ : MonoBehaviour {
         SetBonds SetBonds = GetComponent<SetBonds>();
         SetBonds.CreateBonds();
 
-        //foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
-        //{
-        //    //joint = obj.AddComponent<FixedJoint>();
-        //    if (obj.tag == "Atoms" || obj.tag == "ChemicalBond")
-        //    {
-        //        //joint = obj.AddComponent<FixedJoint>();
-        //        hinge = obj.AddComponent<HingeJoint>();
-        //    }
-        //}
+        foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
+        {
+            if (obj.tag == "Atoms" || obj.tag == "ChemicalBond")
+            {
+                //obj.transform.parent = Parent.transform;
+                joint = obj.AddComponent<FixedJoint>();
+            }
+        }
 
         Debug.Log("End: ImportXYZandSetAtoms !");
-        Application.LoadLevel("Edit");
+        //Application.LoadLevel("Edit");
 	}
 
     void OnGUI()
@@ -121,55 +117,6 @@ public class ImportXYZ : MonoBehaviour {
         locations[tmpCount] = new Vector3(location[1], location[2], location[3]);
         SetAtoms.CreateAtoms(name[0], locations[tmpCount]);
 
-        //各座標を比較して距離を求める
-        //if (0 < tmpCount)   // tmpCountが0以上のとき
-        //{
-        //    int i;
-
-        //    for (i = tmpCount - 1; i >= 0; i--)
-        //    {
-        //        // 2つの座標ベクトルの比較
-        //        float distance = Vector3.Distance(locations[tmpCount], locations[i]);
-        //        //Debug.Log(distance);    // 数値確認用
-
-        //        // if 距離が定数値を下回っていればその長さの棒モデルを描画
-        //        if (BOND_JUDGMENT > distance)
-        //        {
-        //            //まず向きを決めてから座標の位置を2座標の中心に変更する
-        //            //http://qiita.com/2dgames_jp/items/60274efb7b90fa6f986a
-        //            //向きを定義
-        //            float x, y, z, r;  //差分
-        //            float rad_x, rad_y, rad_z; //3点の角度
-        //            Vector3 position;       //座標
-        //            Quaternion rotation;    //回転
-
-        //            x = locations[tmpCount].x - locations[i].x;
-        //            y = locations[tmpCount].y - locations[i].y;
-        //            z = locations[tmpCount].z - locations[i].z;
-        //            r = Mathf.Sqrt(x * x + y * y + z * z);
-        //            rad_y = Mathf.Atan2(z, x) * Mathf.Rad2Deg;
-        //            rad_x = Mathf.Acos(y / r) * Mathf.Rad2Deg;
-        //            rad_z = 0;
-
-        //            position = new Vector3((locations[i].x + locations[tmpCount].x) / 2, (locations[i].y + locations[tmpCount].y) / 2, (locations[i].z + locations[tmpCount].z) / 2);
-        //            rotation = Quaternion.Euler(rad_z, -rad_y, -rad_x); //rad_xもマイナスにしたら動いた
-        //            //rotation = Quaternion.Euler(rad_z, -rad_y, rad_x); //動かない
-
-        //            //座標を変更
-        //            //表示
-        //            GameObject ChemicalBond = Instantiate(ChemicalBondsPrefab, position, rotation) as GameObject;
-        //            ChemicalBond.name = "ChemicalBond"; //オブジェクト名変更
-        //            BondRigid = ChemicalBond.AddComponent<Rigidbody>();
-        //            BondRigid.isKinematic = true;
-        //            BondRigid.useGravity = false;
-        //            DontDestroyOnLoad(ChemicalBond);
-
-        //            //長さなどの変更
-        //            //Debug.Log(ChemicalBond.transform.localScale);
-        //            ChemicalBond.transform.localScale = new Vector3(ChemicalBond.transform.localScale.x, distance / 2, ChemicalBond.transform.localScale.z);
-        //        }
-        //    }
-        //}
         tmpCount++;
     }
 
