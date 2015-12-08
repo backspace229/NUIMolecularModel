@@ -142,7 +142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e17f25a7d4115428edd498784c5999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joint: {fileID: 0}
 --- !u!114 &622730043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,7 +164,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 622730039}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 957bbba9ce8991c4388edf90ab8c7249, type: 3}
+  m_Script: {fileID: 11500000, guid: d9cf5b26e2167f740aeea4fcc0c47554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ChemicalBondsPrefab: {fileID: 140888, guid: 03c0294532a2f184f8329d6ec6877250, type: 2}

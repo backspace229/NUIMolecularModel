@@ -75,7 +75,7 @@ public class SetBonds : MonoBehaviour {
             ChemicalBond.name = "ChemicalBond"; //オブジェクト名変更
             rigid = ChemicalBond.AddComponent<Rigidbody>(); // Rigidbodyコンポーネントを追加
             rigid.isKinematic = true;       // 物理計算
-            rigid.useGravity  = false;       // 重力使用しない
+            rigid.useGravity  = false;      // 重力使用しない
             rigid.angularDrag = 100f;       // 回転の空気抵抗
             DontDestroyOnLoad(ChemicalBond);// Object 保持
 
