@@ -23,12 +23,13 @@ public class SetBonds : MonoBehaviour {
     // 全オブジェクトを取得して、"Atoms"tag を抜き出す
     public void CreateBonds()
     {
-        List<GameObject> AtomsList = new List<GameObject>();
+        List<GameObject> AtomsList = new List<GameObject>();    // 格納する配列
         foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
         {
             if (obj.tag == "Atoms")
-                AtomsList.Add(obj);
+                AtomsList.Add(obj); // Atomsタグがついてるやつ入れる
         }
+        // Bondのために2つの分子を比較
         for (int i = 0; i < AtomsList.Count - 1; i++)
         {
             for (int j = i + 1; j < AtomsList.Count; j++)
