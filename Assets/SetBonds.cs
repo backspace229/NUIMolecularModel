@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class SetBonds : MonoBehaviour {
     public GameObject ChemicalBondsPrefab;
-    Rigidbody rigid;
+    //Rigidbody rigid;  // 元のやつ
     public const double BOND_JUDGMENT = 1.1;
 
 	// Use this for initialization
@@ -30,13 +30,31 @@ public class SetBonds : MonoBehaviour {
                 AtomsList.Add(obj); // Atomsタグがついてるやつ入れる
         }
         // Bondのために2つの分子を比較
-        for (int i = 0; i < AtomsList.Count - 1; i++)
+        Rigidbody rigid = AtomsList[0].GetComponent<Rigidbody>();   // ここから
+        FixedJoint joint;
+        for (int i = 0; i < AtomsList.Count; i++)
         {
-            for (int j = i + 1; j < AtomsList.Count; j++)
+            for (int j = 0; j < i; j++)
             {
-                CalcBond(AtomsList[i], AtomsList[j]);
+                CalcBond(AtomsList[j], AtomsList[i]);
             }
-        }
+            if (i != 0)
+            {
+                Debug.Log(AtomsList[i]);
+                Debug.Log(rigid);
+                joint = AtomsList[i].AddComponent<FixedJoint>();
+                joint.connectedBody = rigid;
+
+            }
+        }   // ここまで
+
+        //for (int i = 0; i < AtomsList.Count - 1; i++) // 元のやつ
+        //{
+        //    for (int j = i + 1; j < AtomsList.Count; j++)
+        //    {
+        //        CalcBond(AtomsList[i], AtomsList[j]);
+        //    }
+        //}
     }
     // 向きなどの計算
     void CalcBond(GameObject obj1, GameObject obj2) {
@@ -74,10 +92,12 @@ public class SetBonds : MonoBehaviour {
             //表示
             GameObject ChemicalBond = Instantiate(ChemicalBondsPrefab, position, rotation) as GameObject;
             ChemicalBond.name = "ChemicalBond"; //オブジェクト名変更
-            rigid = ChemicalBond.AddComponent<Rigidbody>(); // Rigidbodyコンポーネントを追加
-            rigid.isKinematic = true;       // 物理計算
-            rigid.useGravity  = false;      // 重力使用しない
-            rigid.angularDrag = 100f;       // 回転の空気抵抗
+            // 元のやつ
+            //rigid = ChemicalBond.AddComponent<Rigidbody>(); // Rigidbodyコンポーネントを追加
+            //rigid.isKinematic = true;       // 物理計算
+            //rigid.useGravity  = false;      // 重力使用しない
+            //rigid.angularDrag = 100f;       // 回転の空気抵抗
+            // ここまで
             DontDestroyOnLoad(ChemicalBond);// Object 保持
 
             //長さの変更
@@ -86,6 +106,9 @@ public class SetBonds : MonoBehaviour {
                               distance / 2,
                               ChemicalBond.transform.localScale.z);
 
+            FixedJoint joint = ChemicalBond.AddComponent<FixedJoint>(); // ここｋら
+            Rigidbody rigid = obj1.GetComponent<Rigidbody>();
+            joint.connectedBody = rigid;    // ここまで
         }
     }
 }
