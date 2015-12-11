@@ -20,6 +20,7 @@ public class ImportXYZ : MonoBehaviour {
 	void Start () {
         Debug.Log("Start: ImportXYZandSetAtoms !");
         Parent = new GameObject("Parent");
+        DontDestroyOnLoad(Parent);
         //Debug.Log(System.IO.Directory.GetCurrentDirectory());   // カレントディレクトリを調べる
 
         // ファイルが存在するか調べる //そのうちディレクトリを選べるように(?)
@@ -54,7 +55,7 @@ public class ImportXYZ : MonoBehaviour {
         }
 
         Debug.Log("End: ImportXYZandSetAtoms !");
-        //Application.LoadLevel("Edit");
+        Application.LoadLevel("Edit");
 	}
 
     void OnGUI()

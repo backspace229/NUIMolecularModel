@@ -106,9 +106,13 @@ public class SetBonds : MonoBehaviour {
                               distance / 2,
                               ChemicalBond.transform.localScale.z);
 
-            FixedJoint joint = ChemicalBond.AddComponent<FixedJoint>(); // ここｋら
-            Rigidbody rigid = obj1.GetComponent<Rigidbody>();
-            joint.connectedBody = rigid;    // ここまで
+            Rigidbody rigid = ChemicalBond.AddComponent<Rigidbody>();
+            FixedJoint joint = ChemicalBond.AddComponent<FixedJoint>(); // ここから
+            rigid.isKinematic = false;
+            rigid.useGravity = false;
+            joint.connectedBody = obj1.GetComponent<Rigidbody>();    // ここまで
+            joint.breakForce = 10000000000000f;
+            joint.breakTorque = 10000000000000f;
         }
     }
 }
