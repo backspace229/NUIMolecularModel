@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class SetBonds : MonoBehaviour {
     public GameObject ChemicalBondsPrefab;
+    GameObject OH;
     //Rigidbody rigid;  // 元のやつ
     public const double BOND_JUDGMENT = 1.1;
 
@@ -14,12 +15,50 @@ public class SetBonds : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            Debug.Log("push B");
+            testFuncGroup();
+        }
+        // 60フレームごとに関数を呼び出す
         //if (0 == Time.frameCount % 60)
         //{
-        //    CreateBonds();
+        //    testFuncGroup();
         //}
-        //// 60フレームごとに関数を呼び出す
 	}
+
+    // 官能基つくるためのテスト
+    public void testFuncGroup()
+    {
+        List<GameObject> FuncGroup = new List<GameObject>();
+        foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
+        {
+            if (obj.tag == "Atoms")
+                FuncGroup.Add(obj);
+        }
+        for (int i = 0; i < FuncGroup.Count; i++)
+        {
+            for (int j = 0; j < i; j++)
+            {
+                if (FuncGroup[i].name == "O" && FuncGroup[j].name == "H")
+                {
+                    OH = new GameObject("OH");
+                    FuncGroup[i].transform.parent = OH.transform;
+                    FuncGroup[j].transform.parent = OH.transform;
+                    CalcBond(FuncGroup[i], FuncGroup[j]);
+                }
+                else if (FuncGroup[j].name == "O" && FuncGroup[i].name == "H")
+                {
+                    OH = new GameObject("OH");
+                    FuncGroup[i].transform.parent = OH.transform;
+                    FuncGroup[j].transform.parent = OH.transform;
+                    CalcBond(FuncGroup[j], FuncGroup[i]);
+                }
+            }
+        }
+
+    }
+
     // 全オブジェクトを取得して、"Atoms"tag を抜き出す
     public void CreateBonds()
     {
@@ -40,21 +79,12 @@ public class SetBonds : MonoBehaviour {
             }
             if (i != 0)
             {
-                Debug.Log(AtomsList[i]);
-                Debug.Log(rigid);
+                //Debug.Log(AtomsList[i]);
+                //Debug.Log(rigid);
                 joint = AtomsList[i].AddComponent<FixedJoint>();
                 joint.connectedBody = rigid;
-
             }
         }   // ここまで
-
-        //for (int i = 0; i < AtomsList.Count - 1; i++) // 元のやつ
-        //{
-        //    for (int j = i + 1; j < AtomsList.Count; j++)
-        //    {
-        //        CalcBond(AtomsList[i], AtomsList[j]);
-        //    }
-        //}
     }
     // 向きなどの計算
     void CalcBond(GameObject obj1, GameObject obj2) {
@@ -92,12 +122,6 @@ public class SetBonds : MonoBehaviour {
             //表示
             GameObject ChemicalBond = Instantiate(ChemicalBondsPrefab, position, rotation) as GameObject;
             ChemicalBond.name = "ChemicalBond"; //オブジェクト名変更
-            // 元のやつ
-            //rigid = ChemicalBond.AddComponent<Rigidbody>(); // Rigidbodyコンポーネントを追加
-            //rigid.isKinematic = true;       // 物理計算
-            //rigid.useGravity  = false;      // 重力使用しない
-            //rigid.angularDrag = 100f;       // 回転の空気抵抗
-            // ここまで
             DontDestroyOnLoad(ChemicalBond);// Object 保持
 
             //長さの変更
@@ -106,13 +130,18 @@ public class SetBonds : MonoBehaviour {
                               distance / 2,
                               ChemicalBond.transform.localScale.z);
 
+            // Rigidbodyコンポーネントを追加
             Rigidbody rigid = ChemicalBond.AddComponent<Rigidbody>();
-            FixedJoint joint = ChemicalBond.AddComponent<FixedJoint>(); // ここから
             rigid.isKinematic = false;
             rigid.useGravity = false;
-            joint.connectedBody = obj1.GetComponent<Rigidbody>();    // ここまで
-            joint.breakForce = 10000000000000f;
-            joint.breakTorque = 10000000000000f;
+            //rigid.mass = 10f;
+            rigid.drag = 5.0f;   // 空気抵抗
+            rigid.angularDrag = 10f;   // 回転の空気抵抗
+
+            FixedJoint joint1 = ChemicalBond.AddComponent<FixedJoint>();
+            joint1.connectedBody = obj1.GetComponent<Rigidbody>();
+            //FixedJoint joint2 = ChemicalBond.AddComponent<FixedJoint>();
+            //joint2.connectedBody = obj2.GetComponent<Rigidbody>();
         }
     }
 }

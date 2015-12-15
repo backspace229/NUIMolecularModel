@@ -16,12 +16,12 @@ using Leap;
 public class MagneticPinch : MonoBehaviour
 {
 
-    public const float TRIGGER_DISTANCE_RATIO = 0.7f;   // ひきつける距離
+    public const float TRIGGER_DISTANCE_RATIO = 0.7f;   // ひきつける距離?
 
     /** The stiffness of the spring force used to move the object toward the hand. */
     public float forceSpringConstant = 100.0f;
     /** The maximum range at which an object can be picked up.*/
-    public float magnetDistance = 2.0f; // 磁力の有効距離
+    public float magnetDistance = 2.0f; // 磁力の有効距離?
 
     protected bool pinching_;   // 掴んでいるか(?)
     protected Collider grabbed_;// 握っているか(?)
@@ -77,7 +77,7 @@ public class MagneticPinch : MonoBehaviour
         // Scale trigger distance by thumb proximal bone length.
         // 親指の指先の位置
         Vector leap_thumb_tip = leap_hand.Fingers[0/*親指*/].TipPosition;
-        // ピンチを判断するために鳥がとなる距離は
+        // ピンチを判断するためにトリガとなる距離は
         // 親指の付け根から第一関節までの距離を基準に計算する
         float proximal_length = leap_hand.Fingers[0].Bone(Bone.BoneType.TYPE_PROXIMAL).Length;
         float trigger_distance = proximal_length * TRIGGER_DISTANCE_RATIO;

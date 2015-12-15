@@ -45,11 +45,12 @@ public class ImportXYZ : MonoBehaviour {
         SetBonds SetBonds = GetComponent<SetBonds>();
         SetBonds.CreateBonds();
 
+        // ParentオブジェクトとAtomsを親子関係にする
         foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
         {
             if (obj.tag == "Atoms" || obj.tag == "ChemicalBond")
             {
-                obj.transform.parent = Parent.transform;
+                //obj.transform.parent = Parent.transform;
                 //joint = obj.AddComponent<FixedJoint>();
             }
         }
