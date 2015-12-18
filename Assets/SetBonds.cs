@@ -69,8 +69,8 @@ public class SetBonds : MonoBehaviour {
                 AtomsList.Add(obj); // Atomsタグがついてるやつ入れる
         }
         // Bondのために2つの分子を比較
-        Rigidbody rigid = AtomsList[0].GetComponent<Rigidbody>();   // ここから
-        FixedJoint joint;
+        // aaa Rigidbody rigid = AtomsList[0].GetComponent<Rigidbody>();   // ここから
+        // aaa FixedJoint joint;
         for (int i = 0; i < AtomsList.Count; i++)
         {
             for (int j = 0; j < i; j++)
@@ -81,8 +81,9 @@ public class SetBonds : MonoBehaviour {
             {
                 //Debug.Log(AtomsList[i]);
                 //Debug.Log(rigid);
-                joint = AtomsList[i].AddComponent<FixedJoint>();
-                joint.connectedBody = rigid;
+                //aaaaaaaaaaaaaaaaa
+                //joint = AtomsList[i].AddComponent<FixedJoint>();
+                //joint.connectedBody = rigid;
             }
         }   // ここまで
     }
@@ -131,15 +132,16 @@ public class SetBonds : MonoBehaviour {
                               ChemicalBond.transform.localScale.z);
 
             // Rigidbodyコンポーネントを追加
-            Rigidbody rigid = ChemicalBond.AddComponent<Rigidbody>();
-            rigid.isKinematic = false;
-            rigid.useGravity = false;
-            //rigid.mass = 10f;
-            rigid.drag = 5.0f;   // 空気抵抗
-            rigid.angularDrag = 10f;   // 回転の空気抵抗
-
-            FixedJoint joint1 = ChemicalBond.AddComponent<FixedJoint>();
-            joint1.connectedBody = obj1.GetComponent<Rigidbody>();
+            //aaa
+            //Rigidbody rigid = ChemicalBond.AddComponent<Rigidbody>();
+            //rigid.isKinematic = false;
+            //rigid.useGravity = false;
+            ////rigid.mass = 10f;
+            //rigid.drag = 5.0f;   // 空気抵抗
+            //rigid.angularDrag = 10f;   // 回転の空気抵抗
+            //aaa
+            //FixedJoint joint1 = ChemicalBond.AddComponent<FixedJoint>();
+            //joint1.connectedBody = obj1.GetComponent<Rigidbody>();
             //FixedJoint joint2 = ChemicalBond.AddComponent<FixedJoint>();
             //joint2.connectedBody = obj2.GetComponent<Rigidbody>();
         }

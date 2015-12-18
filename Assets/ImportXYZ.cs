@@ -12,15 +12,19 @@ public class ImportXYZ : MonoBehaviour {
     int AtomsNum = 0, tmpCount = 0;
     private string guitxt = "";
     private string[] line;
-    //public FixedJoint joint;
+    Rigidbody rigidParent;
+    FixedJoint joint;
     Vector3[] locations;
     GameObject Parent;
 
 	// Use this for initialization
 	void Start () {
         Debug.Log("Start: ImportXYZandSetAtoms !");
-        Parent = new GameObject("Parent");
+        Parent = new GameObject("Molecule");
         DontDestroyOnLoad(Parent);
+        rigidParent = Parent.AddComponent<Rigidbody>();   // 親にRididbody
+        rigidParent.useGravity = false;
+        rigidParent.isKinematic = false;
         //Debug.Log(System.IO.Directory.GetCurrentDirectory());   // カレントディレクトリを調べる
 
         // ファイルが存在するか調べる //そのうちディレクトリを選べるように(?)
@@ -50,7 +54,14 @@ public class ImportXYZ : MonoBehaviour {
         {
             if (obj.tag == "Atoms" || obj.tag == "ChemicalBond")
             {
-                //obj.transform.parent = Parent.transform;
+                Rigidbody rigidChild = obj.AddComponent<Rigidbody>();
+                rigidChild.isKinematic = false;
+                rigidChild.useGravity = false;
+                rigidChild.drag = 5f;
+                rigidChild.angularDrag = 5f;
+                FixedJoint fixJoint = obj.AddComponent<FixedJoint>();
+                fixJoint.connectedBody = Parent.GetComponent<Rigidbody>();
+                obj.transform.parent = Parent.transform;
                 //joint = obj.AddComponent<FixedJoint>();
             }
         }
