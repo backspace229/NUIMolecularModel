@@ -54,11 +54,11 @@ public class ImportXYZ : MonoBehaviour {
         {
             if (obj.tag == "Atoms" || obj.tag == "ChemicalBond")
             {
-                Rigidbody rigidChild = obj.AddComponent<Rigidbody>();
-                rigidChild.isKinematic = false;
-                rigidChild.useGravity = false;
-                rigidChild.drag = 5f;
-                rigidChild.angularDrag = 5f;
+                //Rigidbody rigidChild = obj.AddComponent<Rigidbody>();
+                //rigidChild.isKinematic = false;
+                //rigidChild.useGravity = false;
+                //rigidChild.drag = 5f;
+                //rigidChild.angularDrag = 5f;
                 FixedJoint fixJoint = obj.AddComponent<FixedJoint>();
                 fixJoint.connectedBody = Parent.GetComponent<Rigidbody>();
                 obj.transform.parent = Parent.transform;

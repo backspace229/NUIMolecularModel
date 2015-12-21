@@ -38,7 +38,7 @@ public class PrintPosition : MonoBehaviour
         // typeで指定した型のすべてのオブジェクトを配列で取得し、その要素数分繰り返す
         foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
         {
-            if (obj.name != "ChemicalBond"  // ChemicalBond以外で、
+            if (obj.tag == "Atoms"  // タグがAtomsで、
                 && obj.activeInHierarchy)   // シーン上に存在するオブジェクトなら処理
             {
                 n++;

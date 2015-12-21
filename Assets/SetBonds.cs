@@ -132,18 +132,11 @@ public class SetBonds : MonoBehaviour {
                               ChemicalBond.transform.localScale.z);
 
             // Rigidbodyコンポーネントを追加
-            //aaa
-            //Rigidbody rigid = ChemicalBond.AddComponent<Rigidbody>();
-            //rigid.isKinematic = false;
-            //rigid.useGravity = false;
-            ////rigid.mass = 10f;
-            //rigid.drag = 5.0f;   // 空気抵抗
-            //rigid.angularDrag = 10f;   // 回転の空気抵抗
-            //aaa
-            //FixedJoint joint1 = ChemicalBond.AddComponent<FixedJoint>();
-            //joint1.connectedBody = obj1.GetComponent<Rigidbody>();
-            //FixedJoint joint2 = ChemicalBond.AddComponent<FixedJoint>();
-            //joint2.connectedBody = obj2.GetComponent<Rigidbody>();
+            Rigidbody rigid = ChemicalBond.AddComponent<Rigidbody>();
+            rigid.isKinematic = false;
+            rigid.useGravity = false;
+            rigid.drag = 5.0f;   // 空気抵抗
+            rigid.angularDrag = 10f;   // 回転の空気抵抗
         }
     }
 }
