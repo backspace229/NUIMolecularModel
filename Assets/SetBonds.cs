@@ -3,60 +3,88 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
-public class SetBonds : MonoBehaviour {
+public class SetBonds : MonoBehaviour
+{
     public GameObject ChemicalBondsPrefab;
-    GameObject OH;
     //Rigidbody rigid;  // 元のやつ
     public const double BOND_JUDGMENT = 1.1;
+    GameObject OH;
+    Rigidbody rigidParent;
 
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            Debug.Log("push B");
-            testFuncGroup();
-        }
-        // 60フレームごとに関数を呼び出す
-        //if (0 == Time.frameCount % 60)
+    // Use this for initialization
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //if (Input.GetKeyDown(KeyCode.B))
         //{
+        //    Debug.Log("push B");
         //    testFuncGroup();
         //}
-	}
+        // 60フレームごとに関数を呼び出す
+        if (0 == Time.frameCount % 60)
+        {
+            testFuncGroup();
+        }
+    }
 
     // 官能基つくるためのテスト
     public void testFuncGroup()
     {
         List<GameObject> FuncGroup = new List<GameObject>();
-        foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
+        // Atomsタグがついた全てのオブジェクトをFuncGroupに追加
+        foreach (GameObject obj1 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
         {
-            if (obj.tag == "Atoms")
-                FuncGroup.Add(obj);
+            if (obj1.tag == "Atoms")
+                FuncGroup.Add(obj1);
         }
+        // Parentタグがついたオブジェクトの子を判別し、該当したものはFuncGroupから削除
+        //foreach (GameObject obj2 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
+        //{
+        //    if (obj2.tag == "Parent")
+        //    {
+        //        for (int i = 0; i < FuncGroup.Count; i++)
+        //        {
+        //            if (obj2.transform.IsChildOf(FuncGroup[i].transform.parent))
+        //            {
+        //                //Debug.Log(FuncGroup[i]);
+        //                //FuncGroup.Remove(FuncGroup[i]);
+        //            }
+        //        }
+        //    }
+        //}
+
+
+        // OHの官能基
         for (int i = 0; i < FuncGroup.Count; i++)
         {
             for (int j = 0; j < i; j++)
             {
-                if (FuncGroup[i].name == "O" && FuncGroup[j].name == "H")
+                if ((FuncGroup[i].name == "H" && FuncGroup[j].name == "O") ||
+                    (FuncGroup[j].name == "H" && FuncGroup[i].name == "O"))
                 {
                     OH = new GameObject("OH");
-                    FuncGroup[i].transform.parent = OH.transform;
-                    FuncGroup[j].transform.parent = OH.transform;
-                    CalcBond(FuncGroup[i], FuncGroup[j]);
-                }
-                else if (FuncGroup[j].name == "O" && FuncGroup[i].name == "H")
-                {
-                    OH = new GameObject("OH");
-                    FuncGroup[i].transform.parent = OH.transform;
-                    FuncGroup[j].transform.parent = OH.transform;
-                    CalcBond(FuncGroup[j], FuncGroup[i]);
+                    if (FuncGroup[i].transform.parent != OH.transform &&
+                         FuncGroup[j].transform.parent != OH.transform)
+                    {
+
+                        //OH = new GameObject("OH");
+                        DontDestroyOnLoad(OH);
+                        rigidParent = OH.AddComponent<Rigidbody>();
+                        rigidParent.useGravity = false;
+                        rigidParent.isKinematic = false;
+                        CalcBond(FuncGroup[i], FuncGroup[j]);
+                        FuncGroup[i].transform.parent = OH.transform;
+                        FuncGroup[j].transform.parent = OH.transform;
+                        //return 0; // 抜けるために書いただけ
+                    }
                 }
             }
         }
-
+        //return 0;
     }
 
     // 全オブジェクトを取得して、"Atoms"tag を抜き出す
@@ -88,7 +116,8 @@ public class SetBonds : MonoBehaviour {
         }   // ここまで
     }
     // 向きなどの計算
-    void CalcBond(GameObject obj1, GameObject obj2) {
+    void CalcBond(GameObject obj1, GameObject obj2)
+    {
         // 2つの座標ベクトルの比較
         float distance = Vector3.Distance(obj1.transform.position, obj2.transform.position);
 
@@ -96,7 +125,7 @@ public class SetBonds : MonoBehaviour {
             BOND_JUDGMENT > distance)   // 距離が定数値を下回っていれば
         {
             //Debug.Log(obj1.name + ", " + obj2.name);
-            
+
             //向きを定義
             float x, y, z, r,           //差分
                   rad_x, rad_y, rad_z;  //3点の角度
@@ -122,7 +151,8 @@ public class SetBonds : MonoBehaviour {
             //座標を変更
             //表示
             GameObject ChemicalBond = Instantiate(ChemicalBondsPrefab, position, rotation) as GameObject;
-            ChemicalBond.name = "ChemicalBond"; //オブジェクト名変更
+            ChemicalBond.name = "ChemicalBond"; // 名前変更
+            ChemicalBond.transform.parent = null;   // 親オブジェクト無しで初期化
             DontDestroyOnLoad(ChemicalBond);// Object 保持
 
             //長さの変更
@@ -133,10 +163,10 @@ public class SetBonds : MonoBehaviour {
 
             // Rigidbodyコンポーネントを追加
             Rigidbody rigid = ChemicalBond.AddComponent<Rigidbody>();
-            rigid.isKinematic = false;
-            rigid.useGravity = false;
-            rigid.drag = 5.0f;   // 空気抵抗
-            rigid.angularDrag = 10f;   // 回転の空気抵抗
+            rigid.isKinematic = false;  // 物理計算しない
+            rigid.useGravity = false;   // 重力使用しない
+            rigid.drag = 5.0f;          // 空気抵抗
+            rigid.angularDrag = 10f;    // 回転の空気抵抗
         }
     }
 }

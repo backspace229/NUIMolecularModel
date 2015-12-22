@@ -34,73 +34,88 @@ public class PrintPosition : MonoBehaviour
 
     void GetFindObjectsOfType()
     {
-        int n = 0;  // 分子数カウント
+        int n = 1;  // 分子数カウント
         // typeで指定した型のすべてのオブジェクトを配列で取得し、その要素数分繰り返す
         foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
         {
             if (obj.tag == "Atoms"  // タグがAtomsで、
+            //if (obj.name != "ChemicalBond"
                 && obj.activeInHierarchy)   // シーン上に存在するオブジェクトなら処理
             {
-                n++;
-                ExportPosition(obj);
+                n = ExportPosition(obj, n);
             }
         }
-        ControlFile(n);
+        //ControlFile(n);
     }
 
     // 1オブジェクトごとに書き出し(この時点ではカメラなども含まれてしまう)
-    void ExportPosition(GameObject obj)
+    int ExportPosition(GameObject obj, int ReferLine)
     {
         // メモリストリーム作成
-        FileInfo fi = new FileInfo(PATH);
-        using (StreamWriter sw = fi.AppendText())
+        //FileInfo fi = new FileInfo(PATH);
+
+        //using (StreamWriter sw = fi.AppendText())
+        using (StreamWriter sw = new StreamWriter(PATH))
         {
-            //if 入れる
-            sw.WriteLine(
-                obj.name + " " +
-                obj.transform.position.x.ToString() + " " +
-                obj.transform.position.y.ToString() + " " +
-                obj.transform.position.z.ToString()
-            );
+            //
+            if (1 == ReferLine)
+            {
+                sw.WriteLine();
+            }
+            else if (2 == ReferLine)
+            {
+                sw.WriteLine("Export_" + exportXYZ.nowtime + ".xyz");
+            }
+            else if (2 < ReferLine)
+            {
+                //if 入れる
+                sw.WriteLine(
+                    obj.name + " " +
+                    obj.transform.position.x.ToString() + " " +
+                    obj.transform.position.y.ToString() + " " +
+                    obj.transform.position.z.ToString()
+                );
+            }
             sw.Close();
         }
+        return ++ReferLine;
     }
 
     // カメラなどの座標が書き込まれた行を力技で強引に編集
-    void ControlFile(int n)
-    {
-        string tmpFile = Path.GetTempFileName();
-        using (StreamReader sr = new StreamReader(PATH))
-        using (StreamWriter sw = new StreamWriter(tmpFile))
-        {
-            int ReferLine = 1;  // 参照する行
-            while (sr.Peek() > -1)
-            {
-                string line = sr.ReadLine();
-                if (1 == ReferLine)
-                {
-                    sw.WriteLine(n - 3);
-                }
-                else if (2 == ReferLine)
-                {
-                    sw.WriteLine("Export_" + exportXYZ.nowtime + ".xyz");
-                }
-                else if (n == ReferLine)
-                {
-                    sw.Dispose();
-                }
-                else
-                {
-                    sw.WriteLine(line);
-                }
-                ReferLine++;
-            }
-            //閉じる
-            sr.Close();
-            sw.Close();
-        }
-        //入れ替え
-        File.Copy(tmpFile, PATH, true);
-        File.Delete(tmpFile);
-    }
+    //void ControlFile(int n)
+    //{
+    //    string tmpFile = Path.GetTempFileName();
+    //    using (StreamReader sr = new StreamReader(PATH))
+    //    using (StreamWriter sw = new StreamWriter(tmpFile))
+    //    {
+    //        int ReferLine = 1;  // 参照する行
+    //        while (sr.Peek() > -1)
+    //        {
+    //            string line = sr.ReadLine();
+    //            if (1 == ReferLine)
+    //            {
+    //                sw.WriteLine(n - 3);
+    //            }
+    //            else if (2 == ReferLine)
+    //            {
+    //                sw.WriteLine("Export_" + exportXYZ.nowtime + ".xyz");
+    //            }
+    //            else if (n == ReferLine)
+    //            {
+    //                sw.Dispose();
+    //            }
+    //            else
+    //            {
+    //                sw.WriteLine(line);
+    //            }
+    //            ReferLine++;
+    //        }
+    //        //閉じる
+    //        sr.Close();
+    //        sw.Close();
+    //    }
+    //    //入れ替え
+    //    File.Copy(tmpFile, PATH, true);
+    //    File.Delete(tmpFile);
+    //}
 }

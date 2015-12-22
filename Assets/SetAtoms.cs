@@ -75,12 +75,13 @@ public class SetAtoms : MonoBehaviour {
         //    case KeyCode.O:
         //        break;
         //}
-        obj.name = AtomName;    // 名前を変更
-        DontDestroyOnLoad(obj);     // Scene を切り替えても Object を保持
+        obj.name = AtomName;            // 名前を変更
+        obj.transform.parent = null;    // 親オブジェクト無しで初期化
+        DontDestroyOnLoad(obj);         // Scene を切り替えても Object を保持
         rigid = obj.AddComponent<Rigidbody>();  // Rigidbodyコンポーネントを追加
         rigid.isKinematic = false;  // 物理計算しない
-        rigid.useGravity = false;  // 重力使用しない
-        rigid.drag = 5.0f;   // 空気抵抗の大きさ
-        rigid.angularDrag = 10f;   // 回転の空気抵抗
+        rigid.useGravity = false;   // 重力使用しない
+        rigid.drag = 5.0f;          // 空気抵抗の大きさ
+        rigid.angularDrag = 10f;    // 回転の空気抵抗
     }
 }

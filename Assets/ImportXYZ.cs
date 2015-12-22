@@ -13,7 +13,7 @@ public class ImportXYZ : MonoBehaviour {
     private string guitxt = "";
     private string[] line;
     Rigidbody rigidParent;
-    FixedJoint joint;
+    //FixedJoint joint;
     Vector3[] locations;
     GameObject Parent;
 
@@ -21,6 +21,7 @@ public class ImportXYZ : MonoBehaviour {
 	void Start () {
         Debug.Log("Start: ImportXYZandSetAtoms !");
         Parent = new GameObject("Molecule");
+        Parent.tag = "Parent";
         DontDestroyOnLoad(Parent);
         rigidParent = Parent.AddComponent<Rigidbody>();   // 親にRididbody
         rigidParent.useGravity = false;
@@ -54,15 +55,11 @@ public class ImportXYZ : MonoBehaviour {
         {
             if (obj.tag == "Atoms" || obj.tag == "ChemicalBond")
             {
-                //Rigidbody rigidChild = obj.AddComponent<Rigidbody>();
-                //rigidChild.isKinematic = false;
-                //rigidChild.useGravity = false;
-                //rigidChild.drag = 5f;
-                //rigidChild.angularDrag = 5f;
                 FixedJoint fixJoint = obj.AddComponent<FixedJoint>();
                 fixJoint.connectedBody = Parent.GetComponent<Rigidbody>();
                 obj.transform.parent = Parent.transform;
-                //joint = obj.AddComponent<FixedJoint>();
+                //Debug.Log("obj.transform.parent: " + obj.transform.parent);
+                //Debug.Log("Parent.transform: " + Parent.transform);
             }
         }
 
