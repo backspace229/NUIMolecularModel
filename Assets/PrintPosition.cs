@@ -6,7 +6,7 @@ using System;       //Exception
 
 
 /**
- * Jを押すとオブジェクト名表示
+ * Pを押すとオブジェクト名表示
  * これを現在の原子を保存するプログラムに書き換える
  */
 public class PrintPosition : MonoBehaviour
@@ -23,7 +23,7 @@ public class PrintPosition : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        // J入力した瞬間
+        // P入力した瞬間
         if (Input.GetKeyDown(KeyCode.P))
         {
             Debug.Log("push P_Key");

@@ -14,40 +14,14 @@ public class SetFuncGroups : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (0 == Time.frameCount % 60)
+        if (Input.GetKeyDown(KeyCode.F))
         {
+            Debug.Log("push F-key");
             CreateFuncGroups();
         }
 	}
     public void CreateFuncGroups()
     {
-        List<GameObject> FuncGroup = new List<GameObject>();
-        foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
-        {
-            if (obj.tag == "Atoms")
-                FuncGroup.Add(obj);
-        }
-        for (int i = 0; i < FuncGroup.Count; i++)
-        {
-            for (int j = 0; j < i; j++)
-            {
-                if (FuncGroup[i].transform.parent != OH.transform || FuncGroup[j].transform.parent != OH.transform)
-                {
-                    if (FuncGroup[i].name == "O" && FuncGroup[j].name == "H")
-                    {
-                        OH = new GameObject("OH");
-                        FuncGroup[i].transform.parent = OH.transform;
-                        FuncGroup[j].transform.parent = OH.transform;
-                    }
-                    else if (FuncGroup[j].name == "O" && FuncGroup[i].name == "H")
-                    {
-                        OH = new GameObject("OH");
-                        FuncGroup[i].transform.parent = OH.transform;
-                        FuncGroup[j].transform.parent = OH.transform;
-                    }
-                    DontDestroyOnLoad(OH);
-                }
-            }
-        }
+        Debug.Log("createFuncGroup");
     }
 }

@@ -48,7 +48,7 @@ public class ImportXYZ : MonoBehaviour {
         }
 
         SetBonds SetBonds = GetComponent<SetBonds>();
-        SetBonds.CreateBonds();
+        SetBonds.SetAtomsList();
 
         // ParentオブジェクトとAtomsを親子関係にする
         foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))

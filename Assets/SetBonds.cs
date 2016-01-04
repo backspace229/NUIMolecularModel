@@ -88,7 +88,7 @@ public class SetBonds : MonoBehaviour
     }
 
     // 全オブジェクトを取得して、"Atoms"tag を抜き出す
-    public void CreateBonds()
+    public void SetAtomsList()
     {
         List<GameObject> AtomsList = new List<GameObject>();    // 格納する配列
         foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
@@ -147,26 +147,29 @@ public class SetBonds : MonoBehaviour
                                    (obj2.transform.position.z + obj1.transform.position.z) / 2);
             rotation = Quaternion.Euler(rad_z, -rad_y, -rad_x); //rad_xもマイナスにしたら動いた
             //rotation = Quaternion.Euler(rad_z, -rad_y, rad_x); //動かない
-
-            //座標を変更
-            //表示
-            GameObject ChemicalBond = Instantiate(ChemicalBondsPrefab, position, rotation) as GameObject;
-            ChemicalBond.name = "ChemicalBond"; // 名前変更
-            ChemicalBond.transform.parent = null;   // 親オブジェクト無しで初期化
-            DontDestroyOnLoad(ChemicalBond);// Object 保持
-
-            //長さの変更
-            ChemicalBond.transform.localScale
-                = new Vector3(ChemicalBond.transform.localScale.x,
-                              distance / 2,
-                              ChemicalBond.transform.localScale.z);
-
-            // Rigidbodyコンポーネントを追加
-            Rigidbody rigid = ChemicalBond.AddComponent<Rigidbody>();
-            rigid.isKinematic = false;  // 物理計算しない
-            rigid.useGravity = false;   // 重力使用しない
-            rigid.drag = 5.0f;          // 空気抵抗
-            rigid.angularDrag = 10f;    // 回転の空気抵抗
+            CreateBonds(position, rotation, distance);
         }
+    }
+    void CreateBonds(Vector3 position, Quaternion rotation, float distance)
+    {
+        //座標を変更
+        //表示
+        GameObject ChemicalBond = Instantiate(ChemicalBondsPrefab, position, rotation) as GameObject;
+        ChemicalBond.name = "ChemicalBond"; // 名前変更
+        ChemicalBond.transform.parent = null;   // 親オブジェクト無しで初期化
+        DontDestroyOnLoad(ChemicalBond);// Object 保持
+
+        //長さの変更
+        ChemicalBond.transform.localScale
+            = new Vector3(ChemicalBond.transform.localScale.x,
+                          distance / 2,
+                          ChemicalBond.transform.localScale.z);
+
+        // Rigidbodyコンポーネントを追加
+        Rigidbody rigid = ChemicalBond.AddComponent<Rigidbody>();
+        rigid.isKinematic = false;  // 物理計算しない
+        rigid.useGravity = false;   // 重力使用しない
+        rigid.drag = 5.0f;          // 空気抵抗
+        rigid.angularDrag = 10f;    // 回転の空気抵抗
     }
 }
