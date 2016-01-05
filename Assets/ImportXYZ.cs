@@ -29,6 +29,26 @@ public class ImportXYZ : MonoBehaviour {
         //Debug.Log(System.IO.Directory.GetCurrentDirectory());   // カレントディレクトリを調べる
 
         // ファイルが存在するか調べる //そのうちディレクトリを選べるように(?)
+        //string fileName = @".\Assets\" + IMPORT_FILE + ".xyz";
+        ExistFile(IMPORT_FILE);
+
+        SetBonds SetBonds = GetComponent<SetBonds>();
+        SetBonds.SetAtomsList();
+
+        CreateParentChild(Parent);
+
+        Debug.Log("End: ImportXYZandSetAtoms !");
+        Application.LoadLevel("Edit");
+	}
+
+    void OnGUI()
+    {
+        GUI.Label(new Rect(10, 10, Screen.width, Screen.height), guitxt);
+    }
+
+    // ファイルの存在の有無(SetFuncGroupメソッドでも使う)
+    public void ExistFile(string IMPORT_FILE)
+    {
         string fileName = @".\Assets\" + IMPORT_FILE + ".xyz";
         // ファイルがある
         if (System.IO.File.Exists(fileName))
@@ -46,30 +66,6 @@ public class ImportXYZ : MonoBehaviour {
             guitxt = "Files not exist...";
             OnGUI();
         }
-
-        SetBonds SetBonds = GetComponent<SetBonds>();
-        SetBonds.SetAtomsList();
-
-        // ParentオブジェクトとAtomsを親子関係にする
-        foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
-        {
-            if (obj.tag == "Atoms" || obj.tag == "ChemicalBond")
-            {
-                FixedJoint fixJoint = obj.AddComponent<FixedJoint>();
-                fixJoint.connectedBody = Parent.GetComponent<Rigidbody>();
-                obj.transform.parent = Parent.transform;
-                //Debug.Log("obj.transform.parent: " + obj.transform.parent);
-                //Debug.Log("Parent.transform: " + Parent.transform);
-            }
-        }
-
-        Debug.Log("End: ImportXYZandSetAtoms !");
-        Application.LoadLevel("Edit");
-	}
-
-    void OnGUI()
-    {
-        GUI.Label(new Rect(10, 10, Screen.width, Screen.height), guitxt);
     }
 
     //ファイル読み込み
@@ -147,6 +143,23 @@ public class ImportXYZ : MonoBehaviour {
                 location[i] = float.Parse(s);
 
             i++;
+        }
+    }
+
+    // 親子関係を作成
+    public void CreateParentChild(GameObject Parent)
+    {
+        // ParentオブジェクトとAtomsを親子関係にする
+        foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
+        {
+            if (obj.tag == "Atoms" || obj.tag == "ChemicalBond")
+            {
+                FixedJoint fixJoint = obj.AddComponent<FixedJoint>();
+                fixJoint.connectedBody = Parent.GetComponent<Rigidbody>();
+                obj.transform.parent = Parent.transform;
+                //Debug.Log("obj.transform.parent: " + obj.transform.parent);
+                //Debug.Log("Parent.transform: " + Parent.transform);
+            }
         }
     }
 	

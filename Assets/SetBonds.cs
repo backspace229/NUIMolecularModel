@@ -27,7 +27,7 @@ public class SetBonds : MonoBehaviour
         // 60フレームごとに関数を呼び出す
         if (0 == Time.frameCount % 60)
         {
-            testFuncGroup();
+            //testFuncGroup();
         }
     }
 
