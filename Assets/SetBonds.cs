@@ -19,76 +19,10 @@ public class SetBonds : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.B))
-        //{
-        //    Debug.Log("push B");
-        //    testFuncGroup();
-        //}
-        // 60フレームごとに関数を呼び出す
-        if (0 == Time.frameCount % 60)
-        {
-            //testFuncGroup();
-        }
-    }
-
-    // 官能基つくるためのテスト
-    public void testFuncGroup()
-    {
-        List<GameObject> FuncGroup = new List<GameObject>();
-        // Atomsタグがついた全てのオブジェクトをFuncGroupに追加
-        foreach (GameObject obj1 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
-        {
-            if (obj1.tag == "Atoms")
-                FuncGroup.Add(obj1);
-        }
-        // Parentタグがついたオブジェクトの子を判別し、該当したものはFuncGroupから削除
-        //foreach (GameObject obj2 in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
-        //{
-        //    if (obj2.tag == "Parent")
-        //    {
-        //        for (int i = 0; i < FuncGroup.Count; i++)
-        //        {
-        //            if (obj2.transform.IsChildOf(FuncGroup[i].transform.parent))
-        //            {
-        //                //Debug.Log(FuncGroup[i]);
-        //                //FuncGroup.Remove(FuncGroup[i]);
-        //            }
-        //        }
-        //    }
-        //}
-
-
-        // OHの官能基
-        for (int i = 0; i < FuncGroup.Count; i++)
-        {
-            for (int j = 0; j < i; j++)
-            {
-                if ((FuncGroup[i].name == "H" && FuncGroup[j].name == "O") ||
-                    (FuncGroup[j].name == "H" && FuncGroup[i].name == "O"))
-                {
-                    OH = new GameObject("OH");
-                    if (FuncGroup[i].transform.parent != OH.transform &&
-                         FuncGroup[j].transform.parent != OH.transform)
-                    {
-
-                        //OH = new GameObject("OH");
-                        DontDestroyOnLoad(OH);
-                        rigidParent = OH.AddComponent<Rigidbody>();
-                        rigidParent.useGravity = false;
-                        rigidParent.isKinematic = false;
-                        CalcBond(FuncGroup[i], FuncGroup[j]);
-                        FuncGroup[i].transform.parent = OH.transform;
-                        FuncGroup[j].transform.parent = OH.transform;
-                        //return 0; // 抜けるために書いただけ
-                    }
-                }
-            }
-        }
-        //return 0;
     }
 
     // 全オブジェクトを取得して、"Atoms"tag を抜き出す
-    public void SetAtomsList()
+    public void SetAtomsList(GameObject Parent)
     {
         List<GameObject> AtomsList = new List<GameObject>();    // 格納する配列
         foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
@@ -103,7 +37,7 @@ public class SetBonds : MonoBehaviour
         {
             for (int j = 0; j < i; j++)
             {
-                CalcBond(AtomsList[j], AtomsList[i]);
+                CalcBond(Parent, AtomsList[j], AtomsList[i]);
             }
             if (i != 0)
             {
@@ -116,7 +50,7 @@ public class SetBonds : MonoBehaviour
         }   // ここまで
     }
     // 向きなどの計算
-    void CalcBond(GameObject obj1, GameObject obj2)
+    void CalcBond(GameObject Parent, GameObject obj1, GameObject obj2)
     {
         // 2つの座標ベクトルの比較
         float distance = Vector3.Distance(obj1.transform.position, obj2.transform.position);
@@ -147,29 +81,36 @@ public class SetBonds : MonoBehaviour
                                    (obj2.transform.position.z + obj1.transform.position.z) / 2);
             rotation = Quaternion.Euler(rad_z, -rad_y, -rad_x); //rad_xもマイナスにしたら動いた
             //rotation = Quaternion.Euler(rad_z, -rad_y, rad_x); //動かない
-            CreateBonds(position, rotation, distance);
+            CreateBonds(Parent, position, rotation, distance);
         }
     }
-    void CreateBonds(Vector3 position, Quaternion rotation, float distance)
+    void CreateBonds(GameObject Parent, Vector3 position, Quaternion rotation, float distance)
     {
         //座標を変更
         //表示
-        GameObject ChemicalBond = Instantiate(ChemicalBondsPrefab, position, rotation) as GameObject;
-        ChemicalBond.name = "ChemicalBond"; // 名前変更
-        ChemicalBond.transform.parent = null;   // 親オブジェクト無しで初期化
-        DontDestroyOnLoad(ChemicalBond);// Object 保持
+        GameObject obj = Instantiate(ChemicalBondsPrefab, position, rotation) as GameObject;
+        obj.name = "ChemicalBond"; // 名前変更
+        obj.transform.parent = null;   // 親オブジェクト無しで初期化
+        DontDestroyOnLoad(obj);// Object 保持
 
         //長さの変更
-        ChemicalBond.transform.localScale
-            = new Vector3(ChemicalBond.transform.localScale.x,
+        obj.transform.localScale
+            = new Vector3(obj.transform.localScale.x,
                           distance / 2,
-                          ChemicalBond.transform.localScale.z);
+                          obj.transform.localScale.z);
 
         // Rigidbodyコンポーネントを追加
-        Rigidbody rigid = ChemicalBond.AddComponent<Rigidbody>();
+        Rigidbody rigid = obj.AddComponent<Rigidbody>();
         rigid.isKinematic = false;  // 物理計算しない
         rigid.useGravity = false;   // 重力使用しない
         rigid.drag = 5.0f;          // 空気抵抗
         rigid.angularDrag = 10f;    // 回転の空気抵抗
+
+        if (null != Parent)
+        {
+            FixedJoint fixJoint = obj.AddComponent<FixedJoint>();
+            fixJoint.connectedBody = Parent.GetComponent<Rigidbody>();
+            obj.transform.parent = Parent.transform;
+        }
     }
 }

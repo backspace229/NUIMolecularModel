@@ -10,7 +10,7 @@ public class SetFuncGroups : MonoBehaviour {
     public static readonly string IMPORT_FILE = "OH";
 
     // ImportXYZのパクリ
-    int AtomsNum = 0, tmpCount = 0;
+    int AtomsNum, tmpCount;
     private string guitxt = "";
     private string[] line;
     Rigidbody rigidParent;
@@ -27,6 +27,8 @@ public class SetFuncGroups : MonoBehaviour {
 	void Update () {
         if (Input.GetKeyDown(KeyCode.F))
         {
+            AtomsNum = 0;
+            tmpCount = 0;
             Parent = new GameObject("OH");
             Parent.tag = "Parent";
             DontDestroyOnLoad(Parent);
@@ -40,9 +42,9 @@ public class SetFuncGroups : MonoBehaviour {
             ExistFile(IMPORT_FILE);
 
             SetBonds SetBonds = GetComponent<SetBonds>();
-            SetBonds.SetAtomsList();
+            SetBonds.SetAtomsList(Parent);
 
-            CreateParentChild(Parent);
+            //CreateParentChild(Parent);
         }
 	}
 
@@ -127,7 +129,7 @@ public class SetFuncGroups : MonoBehaviour {
         stringFromElements(str, name, location);
         // 座標を抜き取って球モデルを配置
         locations[tmpCount] = new Vector3(location[1], location[2], location[3]);
-        SetAtoms.CreateAtoms(name[0], locations[tmpCount]);
+        SetAtoms.CreateAtoms(Parent, name[0], locations[tmpCount]);
 
         tmpCount++;
     }
@@ -152,21 +154,21 @@ public class SetFuncGroups : MonoBehaviour {
         }
     }
 
-    // 親子関係を作成
-    public void CreateParentChild(GameObject Parent)
-    {
-        // ParentオブジェクトとAtomsを親子関係にする
-        foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
-        {
-            if (obj.tag == "Atoms" || obj.tag == "ChemicalBond")
-            {
-                FixedJoint fixJoint = obj.AddComponent<FixedJoint>();
-                fixJoint.connectedBody = Parent.GetComponent<Rigidbody>();
-                obj.transform.parent = Parent.transform;
-                //Debug.Log("obj.transform.parent: " + obj.transform.parent);
-                //Debug.Log("Parent.transform: " + Parent.transform);
-            }
-        }
-    }
+    //// 親子関係を作成
+    //public void CreateParentChild(GameObject Parent)
+    //{
+    //    // ParentオブジェクトとAtomsを親子関係にする
+    //    foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
+    //    {
+    //        if (obj.tag == "Atoms" || obj.tag == "ChemicalBond")
+    //        {
+    //            FixedJoint fixJoint = obj.AddComponent<FixedJoint>();
+    //            fixJoint.connectedBody = Parent.GetComponent<Rigidbody>();
+    //            obj.transform.parent = Parent.transform;
+    //            //Debug.Log("obj.transform.parent: " + obj.transform.parent);
+    //            //Debug.Log("Parent.transform: " + Parent.transform);
+    //        }
+    //    }
+    //}
 
 }

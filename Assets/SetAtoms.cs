@@ -38,17 +38,17 @@ public class SetAtoms : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.O))
         {
             Debug.Log("push O-key");
-            CreateAtoms("O", new Vector3(random_X, random_Y, random_Z));
+            CreateAtoms(null, "O", new Vector3(random_X, random_Y, random_Z));
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
             Debug.Log("push H-key");
-            CreateAtoms("H", new Vector3(random_X, random_Y, random_Z));
+            CreateAtoms(null, "H", new Vector3(random_X, random_Y, random_Z));
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
             Debug.Log("push C-key");
-            CreateAtoms("C", new Vector3(random_X, random_Y, random_Z));
+            CreateAtoms(null, "C", new Vector3(random_X, random_Y, random_Z));
         }
 
         if (Input.GetKeyDown(KeyCode.Return)) {
@@ -56,7 +56,7 @@ public class SetAtoms : MonoBehaviour {
         }
 	}
 
-    public void CreateAtoms(string AtomName, Vector3 Vec3)
+    public void CreateAtoms(GameObject Parent, string AtomName, Vector3 Vec3)
     {
         switch (AtomName)
         {
@@ -83,5 +83,12 @@ public class SetAtoms : MonoBehaviour {
         rigid.useGravity = false;   // 重力使用しない
         rigid.drag = 5.0f;          // 空気抵抗の大きさ
         rigid.angularDrag = 10f;    // 回転の空気抵抗
+
+        if (null != Parent)
+        {
+            FixedJoint fixJoint = obj.AddComponent<FixedJoint>();
+            fixJoint.connectedBody = Parent.GetComponent<Rigidbody>();
+            obj.transform.parent = Parent.transform;
+        }
     }
 }
