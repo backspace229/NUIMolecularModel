@@ -21,6 +21,7 @@ public class SetAtoms : MonoBehaviour {
     public GameObject O, H, C;
     GameObject obj;
     Rigidbody rigid;
+    Atoms atom;
 
 	// Use this for initialization
 	void Start () {
@@ -83,6 +84,9 @@ public class SetAtoms : MonoBehaviour {
         rigid.useGravity = false;   // 重力使用しない
         rigid.drag = 5.0f;          // 空気抵抗の大きさ
         rigid.angularDrag = 10f;    // 回転の空気抵抗
+
+        atom = obj.AddComponent<Atoms>();
+        atom.bondsNum = 0;  // 初期化
 
         if (null != Parent)
         {

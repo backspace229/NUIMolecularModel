@@ -3,7 +3,10 @@ using System.Collections;
 
 public class Atoms : MonoBehaviour {
 
-    public int bondsNum = 0;
+    /// <summary>
+    /// 原子から伸びている結合数
+    /// </summary>
+    public int bondsNum;
 
     public Atoms()
     {

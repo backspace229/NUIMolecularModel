@@ -38,7 +38,11 @@ public class SetBonds : MonoBehaviour
         {
             for (int j = 0; j < i; j++)
             {
-                CalcBond(Parent, AtomsList[j], AtomsList[i]);
+                // 相互に結合数を追加
+                atom1 = AtomsList[j].GetComponent<Atoms>();
+                atom2 = AtomsList[i].GetComponent<Atoms>();
+                if (atom1.bondsNum < 1 || atom2.bondsNum < 1)
+                    CalcBond(Parent, AtomsList[j], AtomsList[i]);
             }
             if (i != 0)
             {
@@ -84,16 +88,19 @@ public class SetBonds : MonoBehaviour
             //rotation = Quaternion.Euler(rad_z, -rad_y, rad_x); //動かない
             CreateBonds(Parent, position, rotation, distance);
 
-            // 相互に結合数を追加
-            if (null != obj1.GetComponent<Atoms>())
-                atom1 = obj1.GetComponent<Atoms>();
-            else
-                atom1 = obj1.AddComponent<Atoms>();
+            //// 相互に結合数を追加
+            //atom1 = obj1.GetComponent<Atoms>();
+            //atom2 = obj2.GetComponent<Atoms>();
 
-            if (null != obj2.GetComponent<Atoms>())
-                atom2 = obj2.GetComponent<Atoms>();
-            else
-                atom2 = obj2.AddComponent<Atoms>();
+            //if (null != obj1.GetComponent<Atoms>())
+            //    atom1 = obj1.GetComponent<Atoms>();
+            //else
+            //    atom1 = obj1.AddComponent<Atoms>();
+
+            //if (null != obj2.GetComponent<Atoms>())
+            //    atom2 = obj2.GetComponent<Atoms>();
+            //else
+            //    atom2 = obj2.AddComponent<Atoms>();
 
             atom1.bondsNum += 1;
             atom2.bondsNum += 1;
