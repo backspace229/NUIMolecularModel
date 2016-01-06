@@ -10,6 +10,7 @@ public class SetBonds : MonoBehaviour
     public const double BOND_JUDGMENT = 1.1;
     GameObject OH;
     Rigidbody rigidParent;
+    Atoms atom1, atom2;
 
     // Use this for initialization
     void Start()
@@ -82,6 +83,20 @@ public class SetBonds : MonoBehaviour
             rotation = Quaternion.Euler(rad_z, -rad_y, -rad_x); //rad_xもマイナスにしたら動いた
             //rotation = Quaternion.Euler(rad_z, -rad_y, rad_x); //動かない
             CreateBonds(Parent, position, rotation, distance);
+
+            // 相互に結合数を追加
+            if (null != obj1.GetComponent<Atoms>())
+                atom1 = obj1.GetComponent<Atoms>();
+            else
+                atom1 = obj1.AddComponent<Atoms>();
+
+            if (null != obj2.GetComponent<Atoms>())
+                atom2 = obj2.GetComponent<Atoms>();
+            else
+                atom2 = obj2.AddComponent<Atoms>();
+
+            atom1.bondsNum += 1;
+            atom2.bondsNum += 1;
         }
     }
     void CreateBonds(GameObject Parent, Vector3 position, Quaternion rotation, float distance)
