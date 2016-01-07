@@ -82,8 +82,9 @@ public class SetAtoms : MonoBehaviour {
         rigid = obj.AddComponent<Rigidbody>();  // Rigidbodyコンポーネントを追加
         rigid.isKinematic = false;  // 物理計算しない
         rigid.useGravity = false;   // 重力使用しない
-        rigid.drag = 5.0f;          // 空気抵抗の大きさ
-        rigid.angularDrag = 10f;    // 回転の空気抵抗
+        rigid.mass = 0.0f;          // 物体の重さ
+        rigid.drag = 10.0f;         // 空気抵抗の大きさ
+        rigid.angularDrag = 10.0f;  // 回転の空気抵抗
 
         atom = obj.AddComponent<Atoms>();
         atom.bondsNum = 0;  // 初期化

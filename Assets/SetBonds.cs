@@ -20,6 +20,10 @@ public class SetBonds : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            Debug.Log("push B-key");
+        }
     }
 
     // 全オブジェクトを取得して、"Atoms"tag を抜き出す
@@ -88,20 +92,6 @@ public class SetBonds : MonoBehaviour
             //rotation = Quaternion.Euler(rad_z, -rad_y, rad_x); //動かない
             CreateBonds(Parent, position, rotation, distance);
 
-            //// 相互に結合数を追加
-            //atom1 = obj1.GetComponent<Atoms>();
-            //atom2 = obj2.GetComponent<Atoms>();
-
-            //if (null != obj1.GetComponent<Atoms>())
-            //    atom1 = obj1.GetComponent<Atoms>();
-            //else
-            //    atom1 = obj1.AddComponent<Atoms>();
-
-            //if (null != obj2.GetComponent<Atoms>())
-            //    atom2 = obj2.GetComponent<Atoms>();
-            //else
-            //    atom2 = obj2.AddComponent<Atoms>();
-
             atom1.bondsNum += 1;
             atom2.bondsNum += 1;
         }
@@ -125,8 +115,9 @@ public class SetBonds : MonoBehaviour
         Rigidbody rigid = obj.AddComponent<Rigidbody>();
         rigid.isKinematic = false;  // 物理計算しない
         rigid.useGravity = false;   // 重力使用しない
-        rigid.drag = 5.0f;          // 空気抵抗
-        rigid.angularDrag = 10f;    // 回転の空気抵抗
+        rigid.mass = 0.0f;          // 物体の重さ
+        rigid.drag = 10.0f;         // 空気抵抗
+        rigid.angularDrag = 10.0f;  // 回転の空気抵抗
 
         if (null != Parent)
         {
