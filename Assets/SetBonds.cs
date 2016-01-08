@@ -10,7 +10,7 @@ public class SetBonds : MonoBehaviour
     public const double BOND_JUDGMENT = 1.1;
     GameObject OH;
     Rigidbody rigidParent;
-    Atoms atom1, atom2;
+    AtomsInfo atom1, atom2;
 
     // Use this for initialization
     void Start()
@@ -23,14 +23,18 @@ public class SetBonds : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log("push B-key");
-            List<GameObject> ParentsList = new List<GameObject>();
+            List<GameObject> Parent = new List<GameObject>();
+            List<GameObject> FuncGroup = new List<GameObject>();
             foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
             {
-                if (obj.name == "Molecule")
-                {
-                    Debug.Log("Saerched Molecule");
-                    SetAtomsList(obj);
-                }
+                if ("Parent" == obj.tag && "Molecule" != obj.name)
+                    FuncGroup.Add(obj);
+                if ("Molecule" == obj.name)
+                    Parent.Add(obj);
+            }
+            for (int i = 0; i < FuncGroup.Count; i++)
+            {
+                BondsFuncGroup(Parent[0], FuncGroup[i]);
             }
             // 一定の距離以内にオブジェクトがある
             // 親を取得する
@@ -39,24 +43,19 @@ public class SetBonds : MonoBehaviour
         }
     }
 
-    //void SaerchParents()
-    //{
-    //    //
-    //    List<GameObject> ParentsList = new List<GameObject>();
-    //    foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
-    //    {
-    //        if (obj.name == "Molecule")
-    //        {
-    //            Debug.Log("Saerched Molecule");
-    //            mol = GetComponent<SetParents>();
-    //        }
-    //        else if (obj.tag == "Parent")
-    //        {
-    //            // 子を取得してつけかえ
-    //            ParentsList.Add(obj);
-    //        }
-    //    }
-    //}
+    void BondsFuncGroup(GameObject Parent, GameObject FuncGroup){
+        AtomsInfo ParentInfo = Parent.GetComponent<AtomsInfo>();
+        AtomsInfo FuncInfo = FuncGroup.GetComponent<AtomsInfo>();
+        Debug.Log(ParentInfo.childName.Count);
+        Debug.Log(FuncInfo.childName.Count);
+        //for (int i = 0; i < ParentInfo.childName.Count; i++)
+        //{
+        //    for (int j = 0; j < FuncInfo.childName.Count; j++)
+        //    {
+        //        Debug.Log(ParentInfo.childName[i] + ", " + i + ": " + FuncInfo.childName[j] + ", " + j + ".");
+        //    }
+        //}
+    }
 
 
     /// <summary>
@@ -78,34 +77,13 @@ public class SetBonds : MonoBehaviour
             for (int j = 0; j < i; j++)
             {
                 // 結合数を取得
-                atom1 = AtomsList[j].GetComponent<Atoms>();
-                atom2 = AtomsList[i].GetComponent<Atoms>();
+                atom1 = AtomsList[j].GetComponent<AtomsInfo>();
+                atom2 = AtomsList[i].GetComponent<AtomsInfo>();
                 // 結合数が1未満もしくは2つのオブジェクトの親が異なるとき(距離は考慮しない)
-                if (atom1.bondsNum < 1 || atom2.bondsNum < 1/* ||
-                    AtomsList[j].transform.parent.gameObject !=
-                    AtomsList[i].transform.parent.gameObject*/)
+                if (atom1.bondsNum < 1 || atom2.bondsNum < 1)
                 {
                     // 結合させる
                     CalcBond(Parent, AtomsList[j], AtomsList[i]);
-                    // ここでは官能基のみを処理したい
-                    //if ("Parent" == AtomsList[j].transform.parent.tag &&
-                    //    "Parent" == AtomsList[i].transform.parent.tag &&
-                    //    AtomsList[j].transform.parent.gameObject !=
-                    //    AtomsList[i].transform.parent.gameObject)
-                    //{
-                    //    if ("Molecule" == AtomsList[j].transform.parent.gameObject.name)
-                    //    {
-                    //        FixedJoint fixJoint = AtomsList[i].GetComponent<FixedJoint>();
-                    //        fixJoint.connectedBody = AtomsList[j].transform.parent.GetComponent<Rigidbody>();
-                    //        AtomsList[i].transform.parent = AtomsList[j].transform.parent.gameObject.transform;
-                    //    }
-                    //    else
-                    //    {
-                    //        FixedJoint fixJoint = AtomsList[j].GetComponent<FixedJoint>();
-                    //        fixJoint.connectedBody = AtomsList[i].transform.parent.GetComponent<Rigidbody>();
-                    //        AtomsList[j].transform.parent = AtomsList[i].transform.parent.gameObject.transform;
-                    //    }
-                    //}
                 }
             }
         }
@@ -187,5 +165,4 @@ public class SetBonds : MonoBehaviour
             obj.transform.parent = Parent.transform;
         }
     }
-
 }

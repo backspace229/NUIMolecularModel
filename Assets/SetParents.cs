@@ -14,6 +14,7 @@ public class SetParents : MonoBehaviour {
     //FixedJoint joint;
     Vector3[] locations;
     public GameObject Parent;
+    AtomsInfo atom;
 
 	// Use this for initialization
 	void Start () {
@@ -37,6 +38,7 @@ public class SetParents : MonoBehaviour {
         rigidParent.isKinematic = false;
         rigidParent.drag = 10;
         rigidParent.angularDrag = 10;
+        atom = Parent.AddComponent<AtomsInfo>();
     }
 
     /// <summary>
@@ -137,6 +139,7 @@ public class SetParents : MonoBehaviour {
         // 座標を抜き取って球モデルを配置
         locations[tmpCount] = new Vector3(location[1], location[2], location[3]);
         SetAtoms.CreateAtoms(Parent, name[0], locations[tmpCount]);
+        atom.GetComponent<AtomsInfo>().childName.Add(name[0]);
 
         tmpCount++;
     }
