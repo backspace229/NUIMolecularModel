@@ -100,7 +100,7 @@ GameObject:
   - 114: {fileID: 622730044}
   - 114: {fileID: 622730040}
   m_Layer: 0
-  m_Name: Atoms
+  m_Name: Enpty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5d2f5fc807fe0c45af923fffb12b24d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Parent: {fileID: 0}
 --- !u!4 &622730041
 Transform:
   m_ObjectHideFlags: 0

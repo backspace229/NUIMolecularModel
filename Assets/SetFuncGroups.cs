@@ -20,7 +20,8 @@ public class SetFuncGroups : MonoBehaviour
         {
 
             setParent = GetComponent<SetParents>();
-            setParent.CreateParents("OH", "OH");
+            setParent.CreateParents("OH");
+            setParent.CreateMolecule("OH");
         }
     }
 }

@@ -89,6 +89,7 @@ public class SetAtoms : MonoBehaviour {
         atom = obj.AddComponent<Atoms>();
         atom.bondsNum = 0;  // 初期化
 
+        // 親子関係付け処理
         if (null != Parent)
         {
             FixedJoint fixJoint = obj.AddComponent<FixedJoint>();

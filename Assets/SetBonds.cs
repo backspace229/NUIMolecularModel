@@ -23,10 +23,46 @@ public class SetBonds : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log("push B-key");
+            List<GameObject> ParentsList = new List<GameObject>();
+            foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
+            {
+                if (obj.name == "Molecule")
+                {
+                    Debug.Log("Saerched Molecule");
+                    SetAtomsList(obj);
+                }
+            }
+            // 一定の距離以内にオブジェクトがある
+            // 親を取得する
+            // 取得した親の子を全てMoleculeに付け替える
+            // 取得した親を消す
         }
     }
 
-    // 全オブジェクトを取得して、"Atoms"tag を抜き出す
+    //void SaerchParents()
+    //{
+    //    //
+    //    List<GameObject> ParentsList = new List<GameObject>();
+    //    foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
+    //    {
+    //        if (obj.name == "Molecule")
+    //        {
+    //            Debug.Log("Saerched Molecule");
+    //            mol = GetComponent<SetParents>();
+    //        }
+    //        else if (obj.tag == "Parent")
+    //        {
+    //            // 子を取得してつけかえ
+    //            ParentsList.Add(obj);
+    //        }
+    //    }
+    //}
+
+
+    /// <summary>
+    /// 全オブジェクトを取得して、"Atoms"tag を抜き出す
+    /// </summary>
+    /// <param name="Parent">親とするオブジェクト</param>
     public void SetAtomsList(GameObject Parent)
     {
         List<GameObject> AtomsList = new List<GameObject>();    // 格納する配列
@@ -35,31 +71,54 @@ public class SetBonds : MonoBehaviour
             if (obj.tag == "Atoms")
                 AtomsList.Add(obj); // Atomsタグがついてるやつ入れる
         }
+
         // Bondのために2つの分子を比較
-        // aaa Rigidbody rigid = AtomsList[0].GetComponent<Rigidbody>();   // ここから
-        // aaa FixedJoint joint;
         for (int i = 0; i < AtomsList.Count; i++)
         {
             for (int j = 0; j < i; j++)
             {
-                // 相互に結合数を追加
+                // 結合数を取得
                 atom1 = AtomsList[j].GetComponent<Atoms>();
                 atom2 = AtomsList[i].GetComponent<Atoms>();
-                if (atom1.bondsNum < 1 || atom2.bondsNum < 1)
+                // 結合数が1未満もしくは2つのオブジェクトの親が異なるとき(距離は考慮しない)
+                if (atom1.bondsNum < 1 || atom2.bondsNum < 1/* ||
+                    AtomsList[j].transform.parent.gameObject !=
+                    AtomsList[i].transform.parent.gameObject*/)
+                {
+                    // 結合させる
                     CalcBond(Parent, AtomsList[j], AtomsList[i]);
+                    // ここでは官能基のみを処理したい
+                    //if ("Parent" == AtomsList[j].transform.parent.tag &&
+                    //    "Parent" == AtomsList[i].transform.parent.tag &&
+                    //    AtomsList[j].transform.parent.gameObject !=
+                    //    AtomsList[i].transform.parent.gameObject)
+                    //{
+                    //    if ("Molecule" == AtomsList[j].transform.parent.gameObject.name)
+                    //    {
+                    //        FixedJoint fixJoint = AtomsList[i].GetComponent<FixedJoint>();
+                    //        fixJoint.connectedBody = AtomsList[j].transform.parent.GetComponent<Rigidbody>();
+                    //        AtomsList[i].transform.parent = AtomsList[j].transform.parent.gameObject.transform;
+                    //    }
+                    //    else
+                    //    {
+                    //        FixedJoint fixJoint = AtomsList[j].GetComponent<FixedJoint>();
+                    //        fixJoint.connectedBody = AtomsList[i].transform.parent.GetComponent<Rigidbody>();
+                    //        AtomsList[j].transform.parent = AtomsList[i].transform.parent.gameObject.transform;
+                    //    }
+                    //}
+                }
             }
-            if (i != 0)
-            {
-                //Debug.Log(AtomsList[i]);
-                //Debug.Log(rigid);
-                //aaaaaaaaaaaaaaaaa
-                //joint = AtomsList[i].AddComponent<FixedJoint>();
-                //joint.connectedBody = rigid;
-            }
-        }   // ここまで
+        }
     }
     // 向きなどの計算
-    void CalcBond(GameObject Parent, GameObject obj1, GameObject obj2)
+    /// <summary>
+    /// 2つの球オブジェクトの距離を比較し、距離が定数値を下回っていれば、
+    /// 棒オブジェクトの向きや長さを計算する
+    /// </summary>
+    /// <param name="Parent">親とするオブジェクト</param>
+    /// <param name="obj1">比較する球1つめ</param>
+    /// <param name="obj2">比較する球2つめ</param>
+    public void CalcBond(GameObject Parent, GameObject obj1, GameObject obj2)
     {
         // 2つの座標ベクトルの比較
         float distance = Vector3.Distance(obj1.transform.position, obj2.transform.position);
@@ -92,6 +151,7 @@ public class SetBonds : MonoBehaviour
             //rotation = Quaternion.Euler(rad_z, -rad_y, rad_x); //動かない
             CreateBonds(Parent, position, rotation, distance);
 
+            // 相互に結合数を追加
             atom1.bondsNum += 1;
             atom2.bondsNum += 1;
         }
@@ -119,6 +179,7 @@ public class SetBonds : MonoBehaviour
         rigid.drag = 10.0f;         // 空気抵抗
         rigid.angularDrag = 10.0f;  // 回転の空気抵抗
 
+        // 親子関係付け処理
         if (null != Parent)
         {
             FixedJoint fixJoint = obj.AddComponent<FixedJoint>();
@@ -126,4 +187,5 @@ public class SetBonds : MonoBehaviour
             obj.transform.parent = Parent.transform;
         }
     }
+
 }

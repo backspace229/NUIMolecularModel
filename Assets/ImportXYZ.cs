@@ -13,7 +13,8 @@ public class ImportXYZ : MonoBehaviour {
         Debug.Log("Start: ImportXYZandSetAtoms !");
 
         setParent = GetComponent<SetParents>();
-        setParent.CreateParents("exampleChemical", "Molecule");
+        setParent.CreateParents("Molecule");
+        setParent.CreateMolecule("exampleChemical");
 
         Debug.Log("End: ImportXYZandSetAtoms !");
         Application.LoadLevel("Edit");

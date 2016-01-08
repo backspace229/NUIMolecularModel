@@ -13,7 +13,7 @@ public class SetParents : MonoBehaviour {
     Rigidbody rigidParent;
     //FixedJoint joint;
     Vector3[] locations;
-    GameObject Parent;
+    public GameObject Parent;
 
 	// Use this for initialization
 	void Start () {
@@ -23,10 +23,12 @@ public class SetParents : MonoBehaviour {
 	void Update () {
 	}
 
-    public void CreateParents(string FileName, string ParentName)
+    /// <summary>
+    /// 原子と結合の親を作る
+    /// </summary>
+    /// <param name="ParentName">親の名前</param>
+    public void CreateParents(string ParentName)
     {
-        AtomsNum = 0;
-        tmpCount = 0;
         Parent = new GameObject(ParentName);
         Parent.tag = "Parent";
         DontDestroyOnLoad(Parent);
@@ -35,8 +37,19 @@ public class SetParents : MonoBehaviour {
         rigidParent.isKinematic = false;
         rigidParent.drag = 10;
         rigidParent.angularDrag = 10;
+    }
 
-        // ファイルが存在するか調べる //そのうちディレクトリを選べるように(?)
+    /// <summary>
+    /// ファイルが存在したら開き、分子モデルを作成する
+    /// </summary>
+    /// <param name="FileName">ファイル名</param>
+    public void CreateMolecule(string FileName)
+    {
+        AtomsNum = 0;
+        tmpCount = 0;
+
+        // ファイルが存在するか調べ、存在したら開く
+        //そのうちディレクトリを選べるように(?)
         ExistFile(FileName);
 
         SetBonds SetBonds = GetComponent<SetBonds>();
@@ -49,7 +62,7 @@ public class SetParents : MonoBehaviour {
     }
 
     // ファイルの存在の有無(SetFuncGroupメソッドでも使う)
-    public void ExistFile(string FileName)
+    void ExistFile(string FileName)
     {
         string fileName = @".\Assets\" + FileName + ".xyz";
         // ファイルがある
