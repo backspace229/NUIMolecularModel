@@ -43,18 +43,23 @@ public class SetBonds : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 親オブジェクトを渡しているので、子オブジェクトを検索して使う
+    /// </summary>
+    /// <param name="Parent">Moleculeオブジェクト</param>
+    /// <param name="FuncGroup">官能基オブジェクト</param>
     void BondsFuncGroup(GameObject Parent, GameObject FuncGroup){
         AtomsInfo ParentInfo = Parent.GetComponent<AtomsInfo>();
         AtomsInfo FuncInfo = FuncGroup.GetComponent<AtomsInfo>();
         Debug.Log(ParentInfo.childName.Count);
         Debug.Log(FuncInfo.childName.Count);
-        //for (int i = 0; i < ParentInfo.childName.Count; i++)
-        //{
-        //    for (int j = 0; j < FuncInfo.childName.Count; j++)
-        //    {
-        //        Debug.Log(ParentInfo.childName[i] + ", " + i + ": " + FuncInfo.childName[j] + ", " + j + ".");
-        //    }
-        //}
+        for (int i = 0; i < ParentInfo.childName.Count; i++)
+        {
+            for (int j = 0; j < FuncInfo.childName.Count; j++)
+            {
+                // うまくいかない
+            }
+        }
     }
 
 
