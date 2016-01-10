@@ -36,10 +36,6 @@ public class SetBonds : MonoBehaviour
             {
                 BondsFuncGroup(Parent[0], FuncGroup[i]);
             }
-            // 一定の距離以内にオブジェクトがある
-            // 親を取得する
-            // 取得した親の子を全てMoleculeに付け替える
-            // 取得した親を消す
         }
     }
 
@@ -51,15 +47,75 @@ public class SetBonds : MonoBehaviour
     void BondsFuncGroup(GameObject Parent, GameObject FuncGroup){
         AtomsInfo ParentInfo = Parent.GetComponent<AtomsInfo>();
         AtomsInfo FuncInfo = FuncGroup.GetComponent<AtomsInfo>();
-        Debug.Log(ParentInfo.childName.Count);
-        Debug.Log(FuncInfo.childName.Count);
+
+        //*
+        bool flag = false;
+        // Molecule内の原子分ループ
         for (int i = 0; i < ParentInfo.childName.Count; i++)
         {
+            // 官能基内の原子分ループ
             for (int j = 0; j < FuncInfo.childName.Count; j++)
             {
-                // うまくいかない
+                Debug.Log("i: " + i + ", j: " + j);
+                flag = CalcFuncGroup(Parent.transform.GetChild(i).gameObject, FuncGroup.transform.GetChild(j).gameObject);
+                if (flag)
+                {
+                    CalcBond(Parent, Parent.transform.GetChild(i).gameObject, FuncGroup.transform.GetChild(j).gameObject);
+                    break;
+                }
+            }
+            if (flag) break;
+        }
+
+        if (flag)
+        {
+            //ここでFuncGroup内の全てのオブジェクトをParentに移動させる
+            // Parent内の全ての子オブジェクトを取得
+            // ループごとにFuncGroup.transform.childCountの値が変わってしまったのでこの書き方
+            for (int i = FuncGroup.transform.childCount - 1; i >= 0; i--)
+            {
+                //Debug.Log(FuncGroup.transform.GetChild(i).gameObject);
+                FixedJoint fixJoint = FuncGroup.transform.GetChild(i).gameObject.GetComponent<FixedJoint>();
+                fixJoint.connectedBody = Parent.GetComponent<Rigidbody>();
+                FuncGroup.transform.GetChild(i).gameObject.transform.parent = Parent.transform;
+                if (0 == i) Destroy(FuncGroup);
             }
         }
+        Debug.Log(flag);
+        //*/
+
+        //// ただしく取得できているか確認
+        //Debug.Log("start parent name");
+        //for (int i = 0; i < ParentInfo.childName.Count; i++)
+        //{
+        //    Debug.Log(Parent.transform.FindChild(ParentInfo.childName[i]).name);
+        //}
+        //Debug.Log("start func group name");
+        //for (int i = 0; i < FuncInfo.childName.Count; i++)
+        //{
+        //    Debug.Log(FuncGroup.transform.FindChild(FuncInfo.childName[i]).name);
+        //}
+        //Debug.Log("--------------------------------");
+    }
+
+    /// <summary>
+    /// 2つのオブジェクトを比較し、距離が一定以内にあればtrueを返す
+    /// </summary>
+    /// <param name="obj1">比較する球1つめ</param>
+    /// <param name="obj2">比較する球2つめ</param>
+    /// <returns></returns>
+    bool CalcFuncGroup(GameObject obj1, GameObject obj2)
+    {
+        // 2つの座標ベクトルの比較
+        float distance = Vector3.Distance(obj1.transform.position, obj2.transform.position);
+        bool flag = false;  // 初期化
+
+        if (obj1.activeInHierarchy && obj2.activeInHierarchy && // シーン上に存在し、
+            BOND_JUDGMENT > distance)   // 距離が定数値を下回っていれば
+        {
+            flag = true;
+        }
+        return flag;
     }
 
 
@@ -135,7 +191,9 @@ public class SetBonds : MonoBehaviour
             CreateBonds(Parent, position, rotation, distance);
 
             // 相互に結合数を追加
+            atom1 = obj1.GetComponent<AtomsInfo>();
             atom1.bondsNum += 1;
+            atom2 = obj2.GetComponent<AtomsInfo>();
             atom2.bondsNum += 1;
         }
     }
