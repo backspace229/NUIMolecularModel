@@ -23,5 +23,11 @@ public class SetFuncGroups : MonoBehaviour
             setParent.CreateParents("OH");
             setParent.CreateMolecule("OH");
         }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            setParent = GetComponent<SetParents>();
+            setParent.CreateParents("Methane");
+            setParent.CreateMolecule("Methane");
+        }
     }
 }

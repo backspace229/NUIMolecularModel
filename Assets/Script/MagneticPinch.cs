@@ -34,7 +34,7 @@ public class MagneticPinch : MonoBehaviour
     /** Finds an object to grab and grabs it. */
     void OnPinch(Vector3 pinch_position)
     {
-        Debug.Log("OnPinch");
+        //Debug.Log("OnPinch");
 
         pinching_ = true;
 
@@ -57,7 +57,7 @@ public class MagneticPinch : MonoBehaviour
     /** Clears the pinch state. */
     void OnRelease()
     {
-        Debug.Log("OnRelease");
+        //Debug.Log("OnRelease");
 
         grabbed_ = null;
         pinching_ = false;

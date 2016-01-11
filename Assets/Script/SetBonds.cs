@@ -20,6 +20,7 @@ public class SetBonds : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        SwitchingIsKinematic();
         if (Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log("push B-key");
@@ -46,18 +47,17 @@ public class SetBonds : MonoBehaviour
     /// <param name="FuncGroup">官能基オブジェクト</param>
     void BondsFuncGroup(GameObject Parent, GameObject FuncGroup){
         AtomsInfo ParentInfo = Parent.GetComponent<AtomsInfo>();
-        AtomsInfo FuncInfo = FuncGroup.GetComponent<AtomsInfo>();
+        //AtomsInfo FuncInfo = FuncGroup.GetComponent<AtomsInfo>();
 
         //*
         bool flag = false;
         // Molecule内の原子分ループ
-        for (int i = 0; i < ParentInfo.childName.Count; i++)
+        for (int i = 0; i < Parent.transform.childCount; i++)
         {
-            // 官能基内の原子分ループ
-            for (int j = 0; j < FuncInfo.childName.Count; j++)
+            for (int j = 0; j < FuncGroup.transform.childCount; j++)
             {
-                Debug.Log("i: " + i + ", j: " + j);
-                flag = CalcFuncGroup(Parent.transform.GetChild(i).gameObject, FuncGroup.transform.GetChild(j).gameObject);
+                if ("Atoms" == Parent.transform.GetChild(i).gameObject.tag && "Atoms" == FuncGroup.transform.GetChild(j).gameObject.tag)
+                    flag = CalcFuncGroup(Parent.transform.GetChild(i).gameObject, FuncGroup.transform.GetChild(j).gameObject);
                 if (flag)
                 {
                     CalcBond(Parent, Parent.transform.GetChild(i).gameObject, FuncGroup.transform.GetChild(j).gameObject);
@@ -75,27 +75,20 @@ public class SetBonds : MonoBehaviour
             for (int i = FuncGroup.transform.childCount - 1; i >= 0; i--)
             {
                 //Debug.Log(FuncGroup.transform.GetChild(i).gameObject);
+                if ("Atoms" == FuncGroup.transform.GetChild(i).tag)
+                {
+                    ParentInfo.childName.Add(FuncGroup.transform.GetChild(i).name);
+                    //ParentList.Add(FuncGroup.transform.GetChild(i).gameObject);
+
+                }
+
                 FixedJoint fixJoint = FuncGroup.transform.GetChild(i).gameObject.GetComponent<FixedJoint>();
                 fixJoint.connectedBody = Parent.GetComponent<Rigidbody>();
                 FuncGroup.transform.GetChild(i).gameObject.transform.parent = Parent.transform;
                 if (0 == i) Destroy(FuncGroup);
             }
         }
-        Debug.Log(flag);
-        //*/
-
-        //// ただしく取得できているか確認
-        //Debug.Log("start parent name");
-        //for (int i = 0; i < ParentInfo.childName.Count; i++)
-        //{
-        //    Debug.Log(Parent.transform.FindChild(ParentInfo.childName[i]).name);
-        //}
-        //Debug.Log("start func group name");
-        //for (int i = 0; i < FuncInfo.childName.Count; i++)
-        //{
-        //    Debug.Log(FuncGroup.transform.FindChild(FuncInfo.childName[i]).name);
-        //}
-        //Debug.Log("--------------------------------");
+        //Debug.Log(flag);
     }
 
     /// <summary>
@@ -226,6 +219,28 @@ public class SetBonds : MonoBehaviour
             FixedJoint fixJoint = obj.AddComponent<FixedJoint>();
             fixJoint.connectedBody = Parent.GetComponent<Rigidbody>();
             obj.transform.parent = Parent.transform;
+        }
+    }
+
+    void SwitchingIsKinematic()
+    {
+        Rigidbody rigid;
+
+        foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
+        {
+            if ("Molecule" == obj.name)
+            {
+                rigid = obj.GetComponent<Rigidbody>();
+                if (rigid.isKinematic)
+                {
+                    rigid.isKinematic = false;
+
+                }
+                else
+                {
+                    rigid.isKinematic = true;
+                }
+            }
         }
     }
 }
