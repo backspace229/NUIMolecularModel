@@ -20,7 +20,8 @@ public class SetBonds : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SwitchingIsKinematic();
+        if (0 == Time.frameCount % 5)
+            SwitchingIsKinematic();
         if (Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log("push B-key");
