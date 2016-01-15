@@ -53,6 +53,14 @@ public class SetAtoms : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.Return)) {
+
+            foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
+            {
+                if ("Molecule" == obj.name)
+                {
+                    obj.GetComponent<Rigidbody>().isKinematic = true;
+                }
+            }
             Application.LoadLevel("Export");    // Scene切り替え
         }
 	}
