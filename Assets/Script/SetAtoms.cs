@@ -82,7 +82,7 @@ public class SetAtoms : MonoBehaviour {
         rigid = obj.AddComponent<Rigidbody>();  // Rigidbodyコンポーネントを追加
         rigid.isKinematic = false;  // 物理計算しない
         rigid.useGravity = false;   // 重力使用しない
-        rigid.mass = 0.0f;          // 物体の重さ
+        rigid.mass = 0.1f;          // 物体の重さ
         rigid.drag = 10.0f;         // 空気抵抗の大きさ
         rigid.angularDrag = 10.0f;  // 回転の空気抵抗
 
@@ -92,6 +92,7 @@ public class SetAtoms : MonoBehaviour {
         // 親子関係付け処理
         if (null != Parent)
         {
+            rigid.mass = 0.0f;
             FixedJoint fixJoint = obj.AddComponent<FixedJoint>();
             fixJoint.connectedBody = Parent.GetComponent<Rigidbody>();
             obj.transform.parent = Parent.transform;

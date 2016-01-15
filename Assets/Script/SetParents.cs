@@ -36,8 +36,9 @@ public class SetParents : MonoBehaviour {
         rigidParent = Parent.AddComponent<Rigidbody>();   // 親にRididbody
         rigidParent.useGravity = false;
         rigidParent.isKinematic = false;
-        rigidParent.drag = 10;
-        rigidParent.angularDrag = 10;
+        rigidParent.mass = 1.0f;
+        rigidParent.drag = 10.0f;
+        rigidParent.angularDrag = 10.0f;
         atom = Parent.AddComponent<AtomsInfo>();
     }
 
@@ -89,6 +90,7 @@ public class SetParents : MonoBehaviour {
     void ReadFile(string FileName)
     {
         FileInfo fi = new FileInfo(Application.dataPath + "/" + FileName + ".xyz");
+        //FileInfo fi = new FileInfo(@".\Assets\" + FileName + ".xyz");
         try
         {
             // 一行目読み込み

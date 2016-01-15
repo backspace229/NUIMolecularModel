@@ -28,6 +28,12 @@ public class SetFuncGroups : MonoBehaviour
             setParent = GetComponent<SetParents>();
             setParent.CreateParents("Methane");
             setParent.CreateMolecule("Methane");
+        }        
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            setParent = GetComponent<SetParents>();
+            setParent.CreateParents("Export_20160115191441");
+            setParent.CreateMolecule("Export_20160115191441");
         }
     }
 }

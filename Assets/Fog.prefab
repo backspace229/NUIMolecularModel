@@ -135,7 +135,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 406768}
   m_Layer: 0
-  m_Name: Space
+  m_Name: Fog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
