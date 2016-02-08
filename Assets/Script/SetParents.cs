@@ -138,8 +138,8 @@ public class SetParents : MonoBehaviour {
         float[] location = new float[4];// 原子座標保保持
 
         stringFromElements(str, name, location);
-        // 座標を抜き取って球モデルを配置
-        locations[tmpCount] = new Vector3(location[1], location[2], location[3]);
+        // 座標を抜き取って球モデルを配置  z軸はマイナスにする
+        locations[tmpCount] = new Vector3(location[1], location[2], -(location[3]));
         SetAtoms.CreateAtoms(Parent, name[0], locations[tmpCount]);
         atom.GetComponent<AtomsInfo>().childName.Add(name[0]);
 

@@ -63,12 +63,17 @@ public class PrintPosition : MonoBehaviour
                 sw.WriteLine("");
                 sw.Write("Export_" + exportXYZ.nowtime + ".xyz");
             }
+
+            float x, y, z;
+            x = obj.transform.position.x;
+            y = obj.transform.position.y;
+            z = -(obj.transform.position.z);
             //    //if 入れる
             sw.Write("\n" +
                 obj.name + " " +
-                obj.transform.position.x.ToString() + " " +
-                obj.transform.position.y.ToString() + " " +
-                obj.transform.position.z.ToString()
+                x.ToString() + " " +
+                y.ToString() + " " +
+                z.ToString()
             );
             sw.Close();
         }
